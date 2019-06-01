@@ -13,6 +13,10 @@
 		FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255122A1A3AB006FC3FD /* Assets.xcassets */; };
 		FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255322A1A3AB006FC3FD /* Main.storyboard */; };
 		FF5A256122A1A3AB006FC3FD /* run_explorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A256022A1A3AB006FC3FD /* run_explorerTests.swift */; };
+		FF5A256C22A1B103006FC3FD /* map.osm in Resources */ = {isa = PBXBuildFile; fileRef = FF5A256B22A1B103006FC3FD /* map.osm */; };
+		FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A256D22A1B375006FC3FD /* OsmParser.swift */; };
+		FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257022A1BDA5006FC3FD /* Utilities.swift */; };
+		FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */ = {isa = PBXBuildFile; fileRef = FF5A257322A20D0C006FC3FD /* map.osm.orig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +41,10 @@
 		FF5A255C22A1A3AB006FC3FD /* run-explorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "run-explorerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5A256022A1A3AB006FC3FD /* run_explorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = run_explorerTests.swift; sourceTree = "<group>"; };
 		FF5A256222A1A3AB006FC3FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF5A256B22A1B103006FC3FD /* map.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = map.osm; path = ../../../Downloads/map.osm; sourceTree = "<group>"; };
+		FF5A256D22A1B375006FC3FD /* OsmParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OsmParser.swift; sourceTree = "<group>"; };
+		FF5A257022A1BDA5006FC3FD /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		FF5A257322A20D0C006FC3FD /* map.osm.orig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = map.osm.orig; path = ../../../Downloads/map.osm.orig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,11 +88,15 @@
 			children = (
 				FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */,
 				FF5A254C22A1A3AA006FC3FD /* ViewController.swift */,
+				FF5A256D22A1B375006FC3FD /* OsmParser.swift */,
+				FF5A257022A1BDA5006FC3FD /* Utilities.swift */,
 				FF5A255122A1A3AB006FC3FD /* Assets.xcassets */,
 				FF5A255322A1A3AB006FC3FD /* Main.storyboard */,
 				FF5A255622A1A3AB006FC3FD /* Info.plist */,
 				FF5A255722A1A3AB006FC3FD /* run_explorer.entitlements */,
 				FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */,
+				FF5A256B22A1B103006FC3FD /* map.osm */,
+				FF5A257322A20D0C006FC3FD /* map.osm.orig */,
 			);
 			path = "run-explorer";
 			sourceTree = "<group>";
@@ -179,7 +191,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF5A256C22A1B103006FC3FD /* map.osm in Resources */,
 				FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */,
+				FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */,
 				FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +214,8 @@
 			files = (
 				FF5A255022A1A3AA006FC3FD /* run_explorer.xcdatamodeld in Sources */,
 				FF5A254D22A1A3AA006FC3FD /* ViewController.swift in Sources */,
+				FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */,
+				FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */,
 				FF5A254B22A1A3AA006FC3FD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
