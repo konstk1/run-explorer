@@ -39,7 +39,6 @@
 		FF5A255122A1A3AB006FC3FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF5A255422A1A3AB006FC3FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FF5A255622A1A3AB006FC3FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FF5A255722A1A3AB006FC3FD /* run_explorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = run_explorer.entitlements; sourceTree = "<group>"; };
 		FF5A255C22A1A3AB006FC3FD /* run-explorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "run-explorerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5A256022A1A3AB006FC3FD /* run_explorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = run_explorerTests.swift; sourceTree = "<group>"; };
 		FF5A256222A1A3AB006FC3FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +48,7 @@
 		FF5A257322A20D0C006FC3FD /* map.osm.orig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = map.osm.orig; path = ../../../Downloads/map.osm.orig; sourceTree = "<group>"; };
 		FF5A257522A3550F006FC3FD /* Strava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strava.swift; sourceTree = "<group>"; };
 		FF5A257722A3593C006FC3FD /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		FF5A257922A4168B006FC3FD /* run-explorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "run-explorer.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +99,7 @@
 				FF5A255322A1A3AB006FC3FD /* Main.storyboard */,
 				FF5A255622A1A3AB006FC3FD /* Info.plist */,
 				FF5A257722A3593C006FC3FD /* Secrets.plist */,
-				FF5A255722A1A3AB006FC3FD /* run_explorer.entitlements */,
+				FF5A257922A4168B006FC3FD /* run-explorer.entitlements */,
 				FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */,
 				FF5A256B22A1B103006FC3FD /* map.osm */,
 				FF5A257322A20D0C006FC3FD /* map.osm.orig */,
@@ -166,6 +166,11 @@
 				TargetAttributes = {
 					FF5A254622A1A3AA006FC3FD = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					FF5A255B22A1A3AB006FC3FD = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -377,7 +382,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "run-explorer/run_explorer.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "run-explorer/run-explorer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = LG2FJE6R72;
@@ -396,7 +401,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "run-explorer/run_explorer.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "run-explorer/run-explorer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = LG2FJE6R72;

@@ -38,3 +38,14 @@ extension URLSession {
         }
     }
 }
+
+func getPlist(named name: String) -> [String: String]?
+{
+    guard  let path = Bundle.main.path(forResource: name, ofType: "plist"),
+        let xml = FileManager.default.contents(atPath: path) else {
+            print("Failed to read contents of file")
+            return nil
+    }
+    
+    return (try? PropertyListSerialization.propertyList(from: xml, options: .mutableContainers, format: nil)) as? [String: String]
+}

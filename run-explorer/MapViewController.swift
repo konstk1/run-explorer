@@ -12,6 +12,7 @@ import MapKit
 class MapViewController: NSViewController {
     
     var osm: OsmParser!
+    var strava: Strava!
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -39,7 +40,7 @@ class MapViewController: NSViewController {
         mapView.addOverlays(lines)
         print("Added \(lines.count) lines")
         
-        let strava = Strava()
+        strava = Strava()
         strava.auth(vc: self)
     }
 
