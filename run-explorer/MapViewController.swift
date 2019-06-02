@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  run-explorer
 //
 //  Created by Konstantin Klitenik on 5/31/19.
@@ -9,7 +9,7 @@
 import Cocoa
 import MapKit
 
-class ViewController: NSViewController {
+class MapViewController: NSViewController {
     
     var osm: OsmParser!
 
@@ -38,6 +38,9 @@ class ViewController: NSViewController {
 
         mapView.addOverlays(lines)
         print("Added \(lines.count) lines")
+        
+        let strava = Strava()
+        strava.auth(vc: self)
     }
 
     override var representedObject: Any? {
@@ -47,7 +50,7 @@ class ViewController: NSViewController {
     }
 }
 
-extension ViewController: MKMapViewDelegate {
+extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             let lineRender = MKPolylineRenderer(overlay: overlay)

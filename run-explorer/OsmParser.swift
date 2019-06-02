@@ -8,7 +8,7 @@
 
 import Foundation
 
-class OsmParser: NSObject {
+final class OsmParser: NSObject {
     var nodes = Dictionary<Int, OsmNode>()
     var ways = Array<OsmWay>()
     

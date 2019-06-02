@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FF5A254B22A1A3AA006FC3FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */; };
-		FF5A254D22A1A3AA006FC3FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254C22A1A3AA006FC3FD /* ViewController.swift */; };
+		FF5A254D22A1A3AA006FC3FD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */; };
 		FF5A255022A1A3AA006FC3FD /* run_explorer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */; };
 		FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255122A1A3AB006FC3FD /* Assets.xcassets */; };
 		FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255322A1A3AB006FC3FD /* Main.storyboard */; };
@@ -17,6 +17,8 @@
 		FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A256D22A1B375006FC3FD /* OsmParser.swift */; };
 		FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257022A1BDA5006FC3FD /* Utilities.swift */; };
 		FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */ = {isa = PBXBuildFile; fileRef = FF5A257322A20D0C006FC3FD /* map.osm.orig */; };
+		FF5A257622A3550F006FC3FD /* Strava.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257522A3550F006FC3FD /* Strava.swift */; };
+		FF5A257822A3593C006FC3FD /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF5A257722A3593C006FC3FD /* Secrets.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +34,7 @@
 /* Begin PBXFileReference section */
 		FF5A254722A1A3AA006FC3FD /* run-explorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "run-explorer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FF5A254C22A1A3AA006FC3FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FF5A254F22A1A3AA006FC3FD /* run_explorer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = run_explorer.xcdatamodel; sourceTree = "<group>"; };
 		FF5A255122A1A3AB006FC3FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF5A255422A1A3AB006FC3FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -45,6 +47,8 @@
 		FF5A256D22A1B375006FC3FD /* OsmParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OsmParser.swift; sourceTree = "<group>"; };
 		FF5A257022A1BDA5006FC3FD /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		FF5A257322A20D0C006FC3FD /* map.osm.orig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = map.osm.orig; path = ../../../Downloads/map.osm.orig; sourceTree = "<group>"; };
+		FF5A257522A3550F006FC3FD /* Strava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strava.swift; sourceTree = "<group>"; };
+		FF5A257722A3593C006FC3FD /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,12 +91,14 @@
 			isa = PBXGroup;
 			children = (
 				FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */,
-				FF5A254C22A1A3AA006FC3FD /* ViewController.swift */,
+				FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */,
 				FF5A256D22A1B375006FC3FD /* OsmParser.swift */,
+				FF5A257522A3550F006FC3FD /* Strava.swift */,
 				FF5A257022A1BDA5006FC3FD /* Utilities.swift */,
 				FF5A255122A1A3AB006FC3FD /* Assets.xcassets */,
 				FF5A255322A1A3AB006FC3FD /* Main.storyboard */,
 				FF5A255622A1A3AB006FC3FD /* Info.plist */,
+				FF5A257722A3593C006FC3FD /* Secrets.plist */,
 				FF5A255722A1A3AB006FC3FD /* run_explorer.entitlements */,
 				FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */,
 				FF5A256B22A1B103006FC3FD /* map.osm */,
@@ -192,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF5A256C22A1B103006FC3FD /* map.osm in Resources */,
+				FF5A257822A3593C006FC3FD /* Secrets.plist in Resources */,
 				FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */,
 				FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */,
 				FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */,
@@ -212,8 +219,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF5A257622A3550F006FC3FD /* Strava.swift in Sources */,
 				FF5A255022A1A3AA006FC3FD /* run_explorer.xcdatamodeld in Sources */,
-				FF5A254D22A1A3AA006FC3FD /* ViewController.swift in Sources */,
+				FF5A254D22A1A3AA006FC3FD /* MapViewController.swift in Sources */,
 				FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */,
 				FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */,
 				FF5A254B22A1A3AA006FC3FD /* AppDelegate.swift in Sources */,

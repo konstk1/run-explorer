@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <plugIn identifier="com.apple.MapKitIBPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -703,9 +704,37 @@
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
         <!--View Controller-->
+        <scene sceneID="9Lg-gZ-H8x">
+            <objects>
+                <viewController storyboardIdentifier="webview" id="nPp-Pw-W1F" sceneMemberID="viewController">
+                    <view key="view" id="TUo-Fn-oA6">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BTu-vc-OV2">
+                                <rect key="frame" x="10" y="10" width="430" height="280"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="BTu-vc-OV2" secondAttribute="bottom" constant="10" id="QSm-ca-l9c"/>
+                            <constraint firstItem="BTu-vc-OV2" firstAttribute="top" secondItem="TUo-Fn-oA6" secondAttribute="top" constant="10" id="UB5-DH-iPc"/>
+                            <constraint firstAttribute="trailing" secondItem="BTu-vc-OV2" secondAttribute="trailing" constant="10" id="WjE-JS-c1E"/>
+                            <constraint firstItem="BTu-vc-OV2" firstAttribute="leading" secondItem="TUo-Fn-oA6" secondAttribute="leading" constant="10" id="dj2-Jy-1za"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="Zgu-Fd-sTu" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="588" y="241"/>
+        </scene>
+        <!--Map View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="run_explorer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="MapViewController" customModule="run_explorer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
