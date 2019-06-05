@@ -41,7 +41,7 @@ class MapViewController: NSViewController {
         print("Added \(lines.count) lines")
         
         strava = Strava()
-        strava.auth(vc: self)
+        strava.auth()
     }
 
     override var representedObject: Any? {
