@@ -19,6 +19,8 @@
 		FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */ = {isa = PBXBuildFile; fileRef = FF5A257322A20D0C006FC3FD /* map.osm.orig */; };
 		FF5A257622A3550F006FC3FD /* Strava.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257522A3550F006FC3FD /* Strava.swift */; };
 		FF5A257822A3593C006FC3FD /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF5A257722A3593C006FC3FD /* Secrets.plist */; };
+		FF87111B22A8180A004DF7C1 /* Strava+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF87111A22A8180A004DF7C1 /* Strava+Auth.swift */; };
+		FF87111D22A81AA6004DF7C1 /* Strava+Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF87111C22A81AA6004DF7C1 /* Strava+Activity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,9 @@
 		FF5A257522A3550F006FC3FD /* Strava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strava.swift; sourceTree = "<group>"; };
 		FF5A257722A3593C006FC3FD /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		FF5A257922A4168B006FC3FD /* run-explorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "run-explorer.entitlements"; sourceTree = "<group>"; };
+		FF87111A22A8180A004DF7C1 /* Strava+Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strava+Auth.swift"; sourceTree = "<group>"; };
+		FF87111C22A81AA6004DF7C1 /* Strava+Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strava+Activity.swift"; sourceTree = "<group>"; };
+		FF87111E22A829A9004DF7C1 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +77,7 @@
 		FF5A253E22A1A3AA006FC3FD = {
 			isa = PBXGroup;
 			children = (
+				FF87111E22A829A9004DF7C1 /* Playground.playground */,
 				FF5A254922A1A3AA006FC3FD /* run-explorer */,
 				FF5A255F22A1A3AB006FC3FD /* run-explorerTests */,
 				FF5A254822A1A3AA006FC3FD /* Products */,
@@ -94,6 +100,8 @@
 				FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */,
 				FF5A256D22A1B375006FC3FD /* OsmParser.swift */,
 				FF5A257522A3550F006FC3FD /* Strava.swift */,
+				FF87111A22A8180A004DF7C1 /* Strava+Auth.swift */,
+				FF87111C22A81AA6004DF7C1 /* Strava+Activity.swift */,
 				FF5A257022A1BDA5006FC3FD /* Utilities.swift */,
 				FF5A255122A1A3AB006FC3FD /* Assets.xcassets */,
 				FF5A255322A1A3AB006FC3FD /* Main.storyboard */,
@@ -225,7 +233,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF5A257622A3550F006FC3FD /* Strava.swift in Sources */,
+				FF87111D22A81AA6004DF7C1 /* Strava+Activity.swift in Sources */,
 				FF5A255022A1A3AA006FC3FD /* run_explorer.xcdatamodeld in Sources */,
+				FF87111B22A8180A004DF7C1 /* Strava+Auth.swift in Sources */,
 				FF5A254D22A1A3AA006FC3FD /* MapViewController.swift in Sources */,
 				FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */,
 				FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */,
