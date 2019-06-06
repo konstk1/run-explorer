@@ -42,7 +42,8 @@ class MapViewController: NSViewController {
         
         strava = Strava()
         strava.auth()
-        strava.getActivities()
+//        strava.getActivities()
+        strava.getActivityStream(activityId: 2421423570)
     }
 
     override var representedObject: Any? {

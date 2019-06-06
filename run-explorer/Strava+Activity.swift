@@ -19,9 +19,14 @@ struct Activity: Decodable {
     }
 }
 
+//struct ActivityStream: Decodable {
+//    var type: String
+//    var data:
+//}
+
 extension Strava {
     func getActivities(after: Date? = nil, before: Date? = nil, page: Int? = nil, perPage: Int? = nil) {
-        var components = Endpoint.activities.asUrlComponents()
+        var components = Endpoint.activityList.asUrlComponents()
         
         if let after = after {
             components.queryItems?.append(URLQueryItem(name: "after", value: String(Int(after.timeIntervalSince1970))))
@@ -48,6 +53,9 @@ extension Strava {
                 do {
                     let activities = try JSONDecoder().decode([Activity].self, from: data)
                     print("Got \(activities.count) activities")
+                    activities.forEach {
+                        print("\($0.startDate) - \($0.id)")
+                    }
                 } catch {
                     print("Failed decode: \(error)")
                 }
@@ -55,6 +63,42 @@ extension Strava {
                 print("Error: \(error)")
             }
         }.resume()
+    }
+    
+    func getActivityStream(activityId: Int) {
+        var components = Endpoint.activities.stream(for: activityId)
+        components.queryItems = [
+            URLQueryItem(name: "keys", value: "latlng")
+        ]
+        
+        var request = URLRequest(url: components.url!)
+        
+        if let accessToken = accessToken {
+            request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+        
+        urlSession.dataTask(with: request) { [weak self] (result) in
+            switch result {
+            case .success(let response, let data):
+                self?.printRateLimitInfo(response: response as? HTTPURLResponse)
+                let json = try! JSONSerialization.jsonObject(with: data) as! [Any]
+                json.forEach {
+                    guard let stream = $0 as? [String: Any] else { return }
+                    if let type = stream["type"] as? String, type == "latlng" {
+                        print("Found latlng")
+                        guard let latlon = stream["data"] as? [[Double]] else {
+                            return
+                        }
+                        let (lat, lon) = (latlon[0], latlon[1])
+                        print(lat, lon)
+                    }
+                }
+//                print(json)
+            case .failure(let error):
+                print("Failed decode: \(error)")
+            }
+        }.resume()
+        
     }
 }
 

@@ -24,7 +24,15 @@ final class Strava: NSObject {
     internal enum Endpoint: String {
         case auth = "https://www.strava.com/oauth/authorize"
         case token = "https://www.strava.com/oauth/token"
-        case activities = "https://www.strava.com/api/v3/athlete/activities"
+        case activityList = "https://www.strava.com/api/v3/athlete/activities"
+        case activities = "https://www.strava.com/api/v3/activities/"
+        
+        func stream(for activityId: Int) -> URLComponents {
+            var url = self.asUrl()
+            url.appendPathComponent(String(activityId))
+            url.appendPathComponent("streams")
+            return URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        }
         
         func asUrl() -> URL {
             return URL(string: self.rawValue)!
@@ -48,6 +56,24 @@ final class Strava: NSObject {
         self.callbackUrl = callbackUrl
         
         super.init()
+    }
+    
+    func printRateLimitInfo(response: HTTPURLResponse?) {
+        guard let response = response else {
+            print("Invalid response")
+            return
+        }
+        
+        guard let limit = response.allHeaderFields["x-ratelimit-limit"] as? String,
+            let usage = response.allHeaderFields["x-ratelimit-usage"] as? String else {
+                print("No x-ratelimit-limit/x-ratelimit-usage headers")
+                return
+        }
+        
+        let limits = limit.split(separator: ",").map { Int($0) ?? 0 }
+        let usages = usage.split(separator: ",").map { Int($0) ?? 0 }
+        
+        print("Usage 15-min \(usages[0])/\(limits[0]) | daily \(usages[1])/\(limits[1])")
     }
 }
 
