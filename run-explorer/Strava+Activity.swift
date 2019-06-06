@@ -27,6 +27,7 @@ struct Activity: Decodable {
 extension Strava {
     func getActivities(after: Date? = nil, before: Date? = nil, page: Int? = nil, perPage: Int? = nil) {
         var components = Endpoint.activityList.asUrlComponents()
+        components.queryItems = Array<URLQueryItem>()
         
         if let after = after {
             components.queryItems?.append(URLQueryItem(name: "after", value: String(Int(after.timeIntervalSince1970))))
@@ -47,14 +48,19 @@ extension Strava {
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
         
-        urlSession.dataTask(with: request) { (result) in
+        urlSession.dataTask(with: request) { [unowned self] (result) in
             switch result {
             case .success(_, let data):
                 do {
                     let activities = try JSONDecoder().decode([Activity].self, from: data)
                     print("Got \(activities.count) activities")
-                    activities.forEach {
-                        print("\($0.startDate) - \($0.id)")
+                    activities.forEach { activity in
+                        self.getActivityStream(forActivity: activity.id) { stream in
+                            print("Saving activity \(activity.id)")
+                            let date = activity.startDate.split(separator: "T").first ?? "null"
+                            let fileName = "/Users/kon/Developer/run-explorer/data/strava/\(date) - \(activity.id).txt"
+                            try! stream.write(toFile: fileName, atomically: true, encoding: .utf8)
+                        }
                     }
                 } catch {
                     print("Failed decode: \(error)")
@@ -65,7 +71,7 @@ extension Strava {
         }.resume()
     }
     
-    func getActivityStream(activityId: Int) {
+    func getActivityStream(forActivity activityId: Int, completion: @escaping (_ stream: String) -> Void) {
         var components = Endpoint.activities.stream(for: activityId)
         components.queryItems = [
             URLQueryItem(name: "keys", value: "latlng")
@@ -89,8 +95,9 @@ extension Strava {
                         guard let latlon = stream["data"] as? [[Double]] else {
                             return
                         }
-                        let (lat, lon) = (latlon[0], latlon[1])
-                        print(lat, lon)
+                        
+                        let stream = latlon.map { "\($0[0]), \($0[1])" }.joined(separator: "\n")
+                        completion(stream)
                     }
                 }
 //                print(json)
@@ -98,7 +105,6 @@ extension Strava {
                 print("Failed decode: \(error)")
             }
         }.resume()
-        
     }
 }
 

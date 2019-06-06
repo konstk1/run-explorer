@@ -42,8 +42,9 @@ class MapViewController: NSViewController {
         
         strava = Strava()
         strava.auth()
-//        strava.getActivities()
-        strava.getActivityStream(activityId: 2421423570)
+        let startDate = Date(timeIntervalSince1970: 1551484800)  // Mar 2 2019
+        strava.getActivities(after: startDate, perPage: 100)
+//        strava.getActivityStream(activityId: 2421423570)
     }
 
     override var representedObject: Any? {
