@@ -43,7 +43,7 @@ class MapViewController: NSViewController {
         strava = Strava()
         strava.auth()
         let startDate = Date(timeIntervalSince1970: 1551484800)  // Mar 2 2019
-        strava.getActivities(after: startDate, perPage: 100)
+//        strava.getActivities(after: startDate, perPage: 100)
 //        strava.getActivityStream(activityId: 2421423570)
     }
 
@@ -51,6 +51,22 @@ class MapViewController: NSViewController {
         didSet {
         // Update the view, if already loaded.
         }
+    }
+}
+
+extension MapViewController: NSTableViewDataSource, NSTableViewDelegate {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        guard let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "RunCell"), owner: self) as? NSTableCellView else {
+            return nil
+        }
+        
+        cell.textField?.stringValue = "Run \(row)"
+        
+        return cell
     }
 }
 
