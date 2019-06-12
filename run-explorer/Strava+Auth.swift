@@ -141,3 +141,26 @@ extension Strava {
         authWindow.close()
     }
 }
+
+extension Strava: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print("Failed nav: \(error)")
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if(navigationAction.navigationType == .formSubmitted) {
+            if let url = navigationAction.request.url, url.absoluteString.starts(with: "http://run-explorer") {
+                if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                    let code = components.queryItems?.first(where: { $0.name == "code"})?.value {
+                    fetchAuthToken(code: code)
+                }
+                closeAuthWindow()
+                decisionHandler(.cancel)
+                return;
+            }
+        }
+        
+        decisionHandler(.allow)
+    }
+}
+

@@ -21,6 +21,8 @@ final class Strava: NSObject {
     
     internal let urlSession = URLSession(configuration: .default)
     
+    internal let dataDir: String
+    
     internal enum Endpoint: String {
         case auth = "https://www.strava.com/oauth/authorize"
         case token = "https://www.strava.com/oauth/token"
@@ -47,13 +49,15 @@ final class Strava: NSObject {
         guard let secrets = getPlist(named: "Secrets"),
               let clientId = secrets["StravaClientId"],
               let clientSecret = secrets["StravaClientSecret"],
-              let callbackUrl = secrets["StravaCallbackUrl"] else {
-            fatalError("Failed to get plit or all strava secrets")
+              let callbackUrl = secrets["StravaCallbackUrl"],
+              let dataDir = secrets["StravaDataDir"] else {
+            fatalError("Failed to get plist or all strava secrets")
         }
 
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.callbackUrl = callbackUrl
+        self.dataDir = dataDir
         
         super.init()
     }
@@ -74,27 +78,5 @@ final class Strava: NSObject {
         let usages = usage.split(separator: ",").map { Int($0) ?? 0 }
         
         print("Usage 15-min \(usages[0])/\(limits[0]) | daily \(usages[1])/\(limits[1])")
-    }
-}
-
-extension Strava: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        print("Failed nav: \(error)")
-    }
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if(navigationAction.navigationType == .formSubmitted) {
-            if let url = navigationAction.request.url, url.absoluteString.starts(with: "http://run-explorer") {
-                if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                    let code = components.queryItems?.first(where: { $0.name == "code"})?.value {
-                    fetchAuthToken(code: code)
-                }
-                closeAuthWindow()
-                decisionHandler(.cancel)
-                return;
-            }
-        }
-        
-        decisionHandler(.allow)
     }
 }

@@ -8,6 +8,11 @@
 
 import Foundation
 
+// Arlington 3mi circle
+//         42.4318
+// -71.1718       -71.1155
+//         42.3920
+
 final class OsmParser: NSObject {
     var nodes = Dictionary<Int, OsmNode>()
     var ways = Array<OsmWay>()
@@ -48,18 +53,18 @@ extension OsmParser: XMLParserDelegate {
 //        print("attr: \(attributeDict)")
         switch elementName {
         case "node":
-            guard let id = attributeDict["id"]?.toInt(), let visible = attributeDict["visible"]?.toBool(), let lat = attributeDict["lat"]?.toDouble(), let lon = attributeDict["lon"]?.toDouble() else {
+            guard let id = attributeDict["id"]?.toInt(), let lat = attributeDict["lat"]?.toDouble(), let lon = attributeDict["lon"]?.toDouble() else {
                 print("Malformed node: \(attributeDict)")
                 return
             }
-            currentNode = OsmNode(id: id, visible: visible, lat: lat, lon: lon)
+            currentNode = OsmNode(id: id, visible: true, lat: lat, lon: lon)
         case "way":
-            guard let id = attributeDict["id"]?.toInt(), let visible = attributeDict["visible"]?.toBool() else {
+            guard let id = attributeDict["id"]?.toInt() else {
                 print("Malformed way: \(attributeDict)")
                 return
             }
             
-            currentWay = OsmWay(id: id, visible: visible)
+            currentWay = OsmWay(id: id, visible: true)
             break
         case "nd": // node reference in way element
             guard let currentWay = currentWay else { fatalError("Expected current way") }

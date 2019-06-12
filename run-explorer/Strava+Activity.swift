@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct Activity: Decodable {
     var id: Int
@@ -19,10 +20,11 @@ struct Activity: Decodable {
     }
 }
 
-//struct ActivityStream: Decodable {
-//    var type: String
-//    var data:
-//}
+struct ActivityStream {
+    var activityId: Int
+    var startDate: Date
+    var coords: [CLLocationCoordinate2D]
+}
 
 extension Strava {
     func getActivities(after: Date? = nil, before: Date? = nil, page: Int? = nil, perPage: Int? = nil) {
@@ -58,7 +60,7 @@ extension Strava {
                         self.getActivityStream(forActivity: activity.id) { stream in
                             print("Saving activity \(activity.id)")
                             let date = activity.startDate.split(separator: "T").first ?? "null"
-                            let fileName = "/Users/kon/Developer/run-explorer/data/strava/\(date) - \(activity.id).txt"
+                            let fileName = "\(self.dataDir)\(date) - \(activity.id).txt"
                             try! stream.write(toFile: fileName, atomically: true, encoding: .utf8)
                         }
                     }
@@ -106,5 +108,55 @@ extension Strava {
             }
         }.resume()
     }
+    
+    func loadStreamsFromDisk() -> [ActivityStream]? {
+        let fileMgr = FileManager.default
+        
+        do {
+            let fileNames = try fileMgr.contentsOfDirectory(atPath: dataDir)
+            let streams = fileNames.compactMap { (fileName) -> ActivityStream? in
+                let url = URL(fileURLWithPath: dataDir).appendingPathComponent(fileName)
+
+                let data: String
+                do {
+                    data = try String(contentsOf: url)
+                } catch {
+                    print("Failed to get data from url: \(error)")
+                    return nil
+                }
+                
+                let coords = data.components(separatedBy: .newlines).map { (line) -> CLLocationCoordinate2D in
+                    let latlon = line.split(separator: ",").map { Double(String($0).trimmingCharacters(in: .whitespaces))! }
+                    return CLLocationCoordinate2D(latitude: latlon[0], longitude: latlon[1])
+                }
+                
+                let comps = fileName.components(separatedBy: CharacterSet(charactersIn: " -.")).filter { !$0.isEmpty }
+                
+                guard comps.count == 5 else {
+                    print("Badly formatted file name (expected 5 components, got \(comps.count)): \(fileName)")
+                    return nil
+                }
+                
+                let year = Int(comps[0]) ?? 0
+                let month = Int(comps[1]) ?? 0
+                let day = Int(comps[2]) ?? 0
+                let activityId = Int(comps[3]) ?? 0
+                
+                let calendar = Calendar(identifier: .gregorian)
+                let date = calendar.date(from: DateComponents(year: year, month: month, day: day))!
+                
+                print("Processed \(fileName) with \(coords.count) points \(date)")
+                
+                return ActivityStream(activityId: activityId, startDate: date, coords: coords)
+            }
+            
+            return streams
+        } catch {
+            print("Failed to fetch data dir contents: \(error)")
+            return nil
+        }
+    }
+    
+    
 }
 

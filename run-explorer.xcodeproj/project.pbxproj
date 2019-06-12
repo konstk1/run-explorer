@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF20BCE522B18E3100D6A2FB /* arlington.osm in Resources */ = {isa = PBXBuildFile; fileRef = FF20BCE422B18E3100D6A2FB /* arlington.osm */; };
 		FF5A254B22A1A3AA006FC3FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */; };
 		FF5A254D22A1A3AA006FC3FD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */; };
 		FF5A255022A1A3AA006FC3FD /* run_explorer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF20BCE422B18E3100D6A2FB /* arlington.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = arlington.osm; path = ../../../Downloads/arlington.osm; sourceTree = "<group>"; };
 		FF5A254722A1A3AA006FC3FD /* run-explorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "run-explorer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				FF5A257722A3593C006FC3FD /* Secrets.plist */,
 				FF5A257922A4168B006FC3FD /* run-explorer.entitlements */,
 				FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */,
+				FF20BCE422B18E3100D6A2FB /* arlington.osm */,
 				FF5A256B22A1B103006FC3FD /* map.osm */,
 				FF5A257322A20D0C006FC3FD /* map.osm.orig */,
 			);
@@ -214,6 +217,7 @@
 				FF5A257822A3593C006FC3FD /* Secrets.plist in Resources */,
 				FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */,
 				FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */,
+				FF20BCE522B18E3100D6A2FB /* arlington.osm in Resources */,
 				FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
