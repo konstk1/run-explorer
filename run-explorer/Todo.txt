@@ -1,0 +1,13 @@
+- Clip ways and nodes to 1.5mi radius
+- Improve clipping to 1.5mi distance to node via ways
+
+
+// Overpass QL (OSM) query
+[out:json][timeout:25];
+(
+way["highway"]["crossing"!~"."]
+(42.3920,-71.1718,42.4318,-71.1155);
+);
+out body qt;
+>;
+out skel qt;

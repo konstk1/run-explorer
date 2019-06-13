@@ -12,6 +12,7 @@ import Foundation
 //         42.4318
 // -71.1718       -71.1155
 //         42.3920
+// bbox 42.3920,-71.1718,42.4318,-71.1155
 
 final class OsmParser: NSObject {
     var nodes = Dictionary<Int, OsmNode>()
@@ -155,31 +156,3 @@ extension OsmWay: CustomStringConvertible {
     }
 }
 
-//<node
-//    id="61172530"
-//    visible="true"
-//    version="6"
-//    changeset="12071447"
-//    timestamp="2012-07-01T01:58:04Z"
-//    user="wambag"
-//    uid="326503"
-//    lat="42.4145691"
-//    lon="-71.1322815"
-///>
-
-//<way
-//    id="94509762"
-//    visible="true"
-//    version="1"
-//    changeset="6934974"
-//    timestamp="2011-01-11T10:07:19Z"
-//    user="JasonWoof"
-//    uid="23351">
-//        <nd ref="66473498"/>
-//        <nd ref="1097821320"/>
-//        <nd ref="1097821341"/>
-//        <nd ref="1097821307"/>
-//        <nd ref="1097821316"/>
-//        <tag k="highway" v="footway"/>
-//        <tag k="surface" v="paved"/>
-//</way>

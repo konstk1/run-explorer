@@ -8,16 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		FF20BCE522B18E3100D6A2FB /* arlington.osm in Resources */ = {isa = PBXBuildFile; fileRef = FF20BCE422B18E3100D6A2FB /* arlington.osm */; };
+		FF38EB6B22B2BE3000D0C747 /* Todo.txt in Resources */ = {isa = PBXBuildFile; fileRef = FF38EB6A22B2BE3000D0C747 /* Todo.txt */; };
+		FF38EB6D22B2CBDA00D0C747 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF38EB6C22B2CBDA00D0C747 /* Graph.swift */; };
 		FF5A254B22A1A3AA006FC3FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */; };
 		FF5A254D22A1A3AA006FC3FD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */; };
 		FF5A255022A1A3AA006FC3FD /* run_explorer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */; };
 		FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255122A1A3AB006FC3FD /* Assets.xcassets */; };
 		FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255322A1A3AB006FC3FD /* Main.storyboard */; };
 		FF5A256122A1A3AB006FC3FD /* run_explorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A256022A1A3AB006FC3FD /* run_explorerTests.swift */; };
-		FF5A256C22A1B103006FC3FD /* map.osm in Resources */ = {isa = PBXBuildFile; fileRef = FF5A256B22A1B103006FC3FD /* map.osm */; };
+		FF5A256C22A1B103006FC3FD /* test.osm in Resources */ = {isa = PBXBuildFile; fileRef = FF5A256B22A1B103006FC3FD /* test.osm */; };
 		FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A256D22A1B375006FC3FD /* OsmParser.swift */; };
 		FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257022A1BDA5006FC3FD /* Utilities.swift */; };
-		FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */ = {isa = PBXBuildFile; fileRef = FF5A257322A20D0C006FC3FD /* map.osm.orig */; };
 		FF5A257622A3550F006FC3FD /* Strava.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257522A3550F006FC3FD /* Strava.swift */; };
 		FF5A257822A3593C006FC3FD /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF5A257722A3593C006FC3FD /* Secrets.plist */; };
 		FF87111B22A8180A004DF7C1 /* Strava+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF87111A22A8180A004DF7C1 /* Strava+Auth.swift */; };
@@ -35,7 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FF20BCE422B18E3100D6A2FB /* arlington.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = arlington.osm; path = ../../../Downloads/arlington.osm; sourceTree = "<group>"; };
+		FF20BCE422B18E3100D6A2FB /* arlington.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = arlington.osm; path = ../data/maps/arlington.osm; sourceTree = "<group>"; };
+		FF38EB6A22B2BE3000D0C747 /* Todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo.txt; sourceTree = "<group>"; };
+		FF38EB6C22B2CBDA00D0C747 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		FF5A254722A1A3AA006FC3FD /* run-explorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "run-explorer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -46,10 +49,9 @@
 		FF5A255C22A1A3AB006FC3FD /* run-explorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "run-explorerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5A256022A1A3AB006FC3FD /* run_explorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = run_explorerTests.swift; sourceTree = "<group>"; };
 		FF5A256222A1A3AB006FC3FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FF5A256B22A1B103006FC3FD /* map.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = map.osm; path = ../../../Downloads/map.osm; sourceTree = "<group>"; };
+		FF5A256B22A1B103006FC3FD /* test.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = test.osm; path = ../data/maps/test.osm; sourceTree = "<group>"; };
 		FF5A256D22A1B375006FC3FD /* OsmParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OsmParser.swift; sourceTree = "<group>"; };
 		FF5A257022A1BDA5006FC3FD /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		FF5A257322A20D0C006FC3FD /* map.osm.orig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = map.osm.orig; path = ../../../Downloads/map.osm.orig; sourceTree = "<group>"; };
 		FF5A257522A3550F006FC3FD /* Strava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strava.swift; sourceTree = "<group>"; };
 		FF5A257722A3593C006FC3FD /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		FF5A257922A4168B006FC3FD /* run-explorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "run-explorer.entitlements"; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				FF5A254A22A1A3AA006FC3FD /* AppDelegate.swift */,
 				FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */,
 				FF5A256D22A1B375006FC3FD /* OsmParser.swift */,
+				FF38EB6C22B2CBDA00D0C747 /* Graph.swift */,
 				FF5A257522A3550F006FC3FD /* Strava.swift */,
 				FF87111A22A8180A004DF7C1 /* Strava+Auth.swift */,
 				FF87111C22A81AA6004DF7C1 /* Strava+Activity.swift */,
@@ -112,8 +115,8 @@
 				FF5A257922A4168B006FC3FD /* run-explorer.entitlements */,
 				FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */,
 				FF20BCE422B18E3100D6A2FB /* arlington.osm */,
-				FF5A256B22A1B103006FC3FD /* map.osm */,
-				FF5A257322A20D0C006FC3FD /* map.osm.orig */,
+				FF5A256B22A1B103006FC3FD /* test.osm */,
+				FF38EB6A22B2BE3000D0C747 /* Todo.txt */,
 			);
 			path = "run-explorer";
 			sourceTree = "<group>";
@@ -213,10 +216,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF5A256C22A1B103006FC3FD /* map.osm in Resources */,
+				FF5A256C22A1B103006FC3FD /* test.osm in Resources */,
 				FF5A257822A3593C006FC3FD /* Secrets.plist in Resources */,
+				FF38EB6B22B2BE3000D0C747 /* Todo.txt in Resources */,
 				FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */,
-				FF5A257422A20D0C006FC3FD /* map.osm.orig in Resources */,
 				FF20BCE522B18E3100D6A2FB /* arlington.osm in Resources */,
 				FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */,
 			);
@@ -242,6 +245,7 @@
 				FF87111B22A8180A004DF7C1 /* Strava+Auth.swift in Sources */,
 				FF5A254D22A1A3AA006FC3FD /* MapViewController.swift in Sources */,
 				FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */,
+				FF38EB6D22B2CBDA00D0C747 /* Graph.swift in Sources */,
 				FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */,
 				FF5A254B22A1A3AA006FC3FD /* AppDelegate.swift in Sources */,
 			);

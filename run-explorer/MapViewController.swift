@@ -21,6 +21,7 @@ class MapViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        return;     // while testing
         
         let center = CLLocationCoordinate2D(latitude: 42.4176397, longitude: -71.1351914)
         let region = MKCoordinateRegion(center: center, latitudinalMeters: 2000, longitudinalMeters: 2000)
@@ -41,7 +42,7 @@ class MapViewController: NSViewController {
         }
 
         mapView.addOverlays(lines)
-        print("Added \(lines.count) lines")
+        print("Added \(lines.count) lines and \(osm!.nodes.count) nodes")
         
         strava = Strava()
         strava.auth()
