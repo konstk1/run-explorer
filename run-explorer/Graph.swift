@@ -8,8 +8,14 @@
 
 import Foundation
 
+
 final class Graph<T: Hashable> {
-    var adjecencyList = Dictionary<Vertex<T>, Set<Edge<T>>>()
+    private var adjecencyList = Dictionary<Vertex<T>, Set<Edge<T>>>()
+
+    private var originVertex: Vertex<T>?
+    
+    typealias sptVertexState = (distance: Double, prev: Vertex<T>?)
+    private var spt: Dictionary<Vertex<T>, sptVertexState>?
     
     func addDirectedEdge(from source: Vertex<T>, to destination: Vertex<T>, weight: Double) {
         let edge = Edge(source: source, destination: destination, weight: weight)
@@ -26,40 +32,64 @@ final class Graph<T: Hashable> {
         addDirectedEdge(from: destination, to: source, weight: weight)
     }
     
-    func computeShortestPathTree(source: Vertex<T>) {
+    private func computeShortestPathTree(source: Vertex<T>) {
         // shortest path tree
-        var spt = Dictionary<Vertex<T>, (distance: Double, prev: Vertex<T>?)>(minimumCapacity: adjecencyList.count)
+        spt = Dictionary(minimumCapacity: adjecencyList.count)
         
         var unvisitted = Set<Vertex<T>>()
         
         for vertex in adjecencyList.keys {
-            spt[vertex] = (Double.infinity, nil)
+            spt![vertex] = (Double.infinity, nil)
             unvisitted.insert(vertex)
         }
-        spt[source] = (0, nil)
+        spt![source] = (0, nil)
         
-        while let vertex = unvisitted.min(by: { spt[$0]!.distance < spt[$1]!.distance }) {
-            print("Processing \(vertex)")
-            
+        while let vertex = unvisitted.min(by: { spt![$0]!.distance < spt![$1]!.distance }) {
             guard let edges = adjecencyList[vertex] else { print("No edges for \(vertex)"); return }
                 
             for edge in edges {
-                let alt = spt[vertex]!.distance + edge.weight
-                if let (currentDistance, _) = spt[edge.destination], unvisitted.contains(edge.destination) && alt < currentDistance {
-                    spt[edge.destination] = (alt, vertex)
+                let alt = spt![vertex]!.distance + edge.weight
+                if let (currentDistance, _) = spt![edge.destination], unvisitted.contains(edge.destination) && alt < currentDistance {
+                    spt![edge.destination] = (alt, vertex)
                 }
             }
                 
             unvisitted.remove(vertex)
         }
         
-        for entry in spt {
-            print("\(entry.key): \(entry.value.distance)")
-        }
+//        for entry in spt! {
+//            print("\(entry.key): \(entry.value.distance)")
+//        }
     }
     
-    func shortestPath(from source: Vertex<T>, to destination: Vertex<T>) -> [Vertex<T>] {
+    func shortestPathFromOrigin(to destination: Vertex<T>) -> [Vertex<T>] {
+        var shortestPath = Array<Vertex<T>>()
         
+        guard let origin = originVertex else {
+            print("Origin is unset")
+            return shortestPath
+        }
+        
+        if spt == nil {
+            print("Calculating SPT...")
+            computeShortestPathTree(source: origin)
+        }
+        
+        var vertex: Vertex? = destination
+        repeat {
+            shortestPath.append(vertex!)
+            vertex = spt?[vertex!]?.prev
+        } while vertex != nil
+        
+        return shortestPath.reversed()
+    }
+    
+    func setOrigin(vertex: Vertex<T>) {
+        guard originVertex != vertex else { return }  // nothing to do if origin hasn't changed
+        
+        // if new origin, save it and clear shortest path tree
+        originVertex = vertex
+        spt = nil
     }
     
     func printGraph() {
@@ -108,3 +138,18 @@ struct Edge<T: Hashable>: Hashable {
     }
 }
 
+extension Array where Element:CustomStringConvertible {
+    func printPath() {
+        var path = ""
+        for (idx, v) in self.enumerated() {
+            if idx == 0 {
+                path += "[\(v)] -> "
+            } else if idx == self.count - 1 {
+                path += "[\(v)]"
+            } else {
+                path += "\(v) -> "
+            }
+        }
+        print(path)
+    }
+}

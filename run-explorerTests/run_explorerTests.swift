@@ -45,8 +45,12 @@ class run_explorerTests: XCTestCase {
         graph.addUndirectedEdge(from: verticies[6], to: verticies[8], weight: 6)
         graph.addUndirectedEdge(from: verticies[7], to: verticies[8], weight: 7)
         
-        graph.printGraph()
-        graph.computeShortestPathTree(source: verticies[0])
+//        graph.printGraph()
+        graph.setOrigin(vertex: verticies[0])
+        graph.shortestPathFromOrigin(to: verticies[8]).printPath()
+        graph.shortestPathFromOrigin(to: verticies[3]).printPath()
+        graph.setOrigin(vertex: verticies[8])
+        graph.shortestPathFromOrigin(to: verticies[4]).printPath()
     }
 
     func testPerformanceExample() {
