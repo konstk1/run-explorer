@@ -9,12 +9,6 @@
 import Foundation
 import CoreLocation
 
-// Arlington 3mi circle
-//         42.4318
-// -71.1718       -71.1155
-//         42.3920
-// bbox 42.3920,-71.1718,42.4318,-71.1155
-
 final class OsmParser: NSObject {
     var nodes = Dictionary<Int, OsmNode>()
     var ways = Array<OsmWay>()

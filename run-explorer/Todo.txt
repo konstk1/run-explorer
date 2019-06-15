@@ -1,5 +1,4 @@
-- Clip ways and nodes to 1.5mi radius
-- Improve clipping to 1.5mi distance to node via ways
+- Save clipped graph and SPT to avoid re-computing
 
 
 // Overpass QL (OSM) query

@@ -145,7 +145,7 @@ extension Strava {
                 let calendar = Calendar(identifier: .gregorian)
                 let date = calendar.date(from: DateComponents(year: year, month: month, day: day))!
                 
-                print("Processed \(fileName) with \(coords.count) points \(date)")
+//                print("Processed \(fileName) with \(coords.count) points \(date)")
                 
                 return ActivityStream(activityId: activityId, startDate: date, coords: coords)
             }

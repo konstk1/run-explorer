@@ -7,12 +7,12 @@
 //
 
 import Foundation
-
+import CoreLocation
 
 final class Graph<T: Hashable> {
     private var adjecencyList: [Vertex<T>: Set<Edge<T>>] = [:]
 
-    private var originVertex: Vertex<T>?
+    private(set) var originVertex: Vertex<T>?
     
     typealias sptVertexState = (distance: Double, prev: Vertex<T>?)
     private var spt: [Vertex<T>: sptVertexState]?
@@ -35,6 +35,19 @@ final class Graph<T: Hashable> {
     func add(vertex: Vertex<T>) {
         guard adjecencyList[vertex] == nil else { return }  // do nothing if vertex exists
         adjecencyList[vertex] = []  // if doesn't exist, init with no edges
+    }
+    
+    func remove(vertex: Vertex<T>) {
+        // remove vertex from graph
+        adjecencyList.removeValue(forKey: vertex)
+        
+        // remove any edges to this vertex
+        adjecencyList.forEach { (arg) in
+            var (_, edge) = arg
+            if let edgeToRemove = edge.first(where: { $0.destination == vertex }) {
+                edge.remove(edgeToRemove)
+            }
+        }
     }
     
     func addDirectedEdge(from source: Vertex<T>, to destination: Vertex<T>, weight: Double) {
@@ -94,6 +107,7 @@ final class Graph<T: Hashable> {
             }
                 
             unvisitted.remove(vertex)
+            print("SPT univisitted \(unvisitted.count)")
         }
         
 //        for entry in spt! {
@@ -102,11 +116,9 @@ final class Graph<T: Hashable> {
     }
     
     func shortestPathFromOrigin(to destination: Vertex<T>) -> [Vertex<T>] {
-        var shortestPath: [Vertex<T>] = []
-        
         guard let origin = originVertex else {
             print("Origin is unset")
-            return shortestPath
+            return []
         }
         
         if spt == nil {
@@ -114,12 +126,20 @@ final class Graph<T: Hashable> {
             computeShortestPathTree(source: origin)
         }
         
-        var vertex: Vertex? = destination
-        repeat {
-            shortestPath.append(vertex!)
-            vertex = spt?[vertex!]?.prev
-        } while vertex != nil
+        // build path by traversing backwards through SPT
+        var shortestPath = [destination]
         
+        var vertex: Vertex? = destination
+        while let sv = spt?[vertex!]?.prev {
+            shortestPath.append(sv)
+            vertex = sv
+        }
+        
+        guard shortestPath.last == originVertex else {
+            return []
+        }
+        
+        // reverse the path to get path from origin to destination
         return shortestPath.reversed()
     }
     
@@ -129,6 +149,47 @@ final class Graph<T: Hashable> {
         // if new origin, save it and clear shortest path tree
         originVertex = vertex
         spt = nil
+    }
+    
+    // 1.5mi = 2414.016m
+    func clampToMaxDistance(from location: CLLocation, distance maxDistance: CLLocationDistance) {
+        // find vertex nearest to center
+        let origin = adjecencyList.keys.min { v1, v2 in
+            guard let v1 = v1 as? Vertex<OsmNode>, let v2 = v2 as? Vertex<OsmNode> else { return false }
+            return location.distance(from: CLLocation(latitude: v1.data.lat, longitude: v1.data.lon)) < location.distance(from: CLLocation(latitude: v2.data.lat, longitude: v2.data.lon))
+        }
+        
+        print("Setting origin: \(origin!)")
+        setOrigin(vertex: origin!)
+        
+        computeShortestPathTree(source: origin!)
+        print("SPT ready")
+        
+        var numRemoved = 0
+        
+        for (vertex, state) in spt! {
+            print("Processing \((vertex.data as! OsmNode).id)")
+            if state.distance > maxDistance {
+                remove(vertex: vertex)
+                numRemoved += 1
+            }
+        }
+        
+        print("Removed \(numRemoved) vertecies")
+
+//        for vertex in adjecencyList.keys {
+//            var distanceToCenter: CLLocationDistance = 0
+//
+//            if let v = vertex as? Vertex<OsmNode> {
+//                distanceToCenter = center.distance(from: CLLocation(latitude: v.data.lat, longitude: v.data.lon))
+//            }
+//
+//            print("Processing \(vertex.data) [\(distanceToCenter)]")
+//
+//            if distanceToCenter > radius {
+//                remove(vertex: vertex)
+//            }
+//        }
     }
     
     func printGraph() {

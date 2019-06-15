@@ -10,9 +10,13 @@ import XCTest
 @testable import run_explorer
 
 class run_explorerTests: XCTestCase {
+    var osm: OsmParser!
+    var graph: Graph<OsmNode>!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        guard let url = Bundle.main.url(forResource: "arlington", withExtension: "osm") else { fatalError("Failed to get osm file") }
+        osm = OsmParser(contentsOf: url)
+        graph = osm.buildGraph()
     }
 
     override func tearDown() {
@@ -54,18 +58,14 @@ class run_explorerTests: XCTestCase {
     }
     
     func testOsmGraph() {
-        guard let url = Bundle.main.url(forResource: "arlington", withExtension: "osm") else { fatalError("Failed to get osm file") }
-        let osm = OsmParser(contentsOf: url)
-        let graph = osm.buildGraph()
-        graph.printGraph()
-        print("OSM nodes \(osm.nodes.count)")
+        
+        
     }
 
-    func testPerformanceExample() {
+    func testGraphPerformance() {
         // This is an example of a performance test case.
         self.measure {
-            // Put the code you want to measure the time of here.
-//            let parser = OsmParser(contentsOf: URL(fileURLWithPath: "/Users/kon/Downloads/map.osm"))
+            graph!.remove(vertex: graph.verticies[0])
         }
     }
 
