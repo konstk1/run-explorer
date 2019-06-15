@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 // Arlington 3mi circle
 //         42.4318
@@ -32,6 +33,23 @@ final class OsmParser: NSObject {
         parser.parse()
         group.wait()
         print("OSM Done")
+    }
+    
+    func buildGraph() -> Graph<OsmNode> {
+        let graph = Graph<OsmNode>()
+        
+        for way in ways {
+            for (i, nodeId) in way.nodeIds[0..<way.nodeIds.count - 1].enumerated() {
+                let source = nodes[nodeId]!
+                let destination = nodes[way.nodeIds[i+1]]!
+                let c1 = CLLocation(latitude: source.lat, longitude: source.lon)
+                let c2 = CLLocation(latitude: destination.lat, longitude: destination.lon)
+                let distance = c1.distance(from: c2)
+                graph.addUndirectedEdge(from: Vertex(data: source), to: Vertex(data: destination), weight: distance)
+            }
+        }
+        
+        return graph
     }
 }
 
@@ -116,7 +134,7 @@ extension OsmParser: XMLParserDelegate {
     }
 }
 
-class OsmNode {
+class OsmNode: Hashable {
     let id: Int
     let visible: Bool
     let lat: Double
@@ -128,6 +146,16 @@ class OsmNode {
         self.visible = visible
         self.lat = lat
         self.lon = lon
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(lat)
+        hasher.combine(lon)
+    }
+    
+    static func ==(lhs: OsmNode, rhs: OsmNode) -> Bool {
+        return lhs.id == rhs.id && lhs.lat == rhs.lat && lhs.lon == lhs.lon
     }
 }
 
@@ -145,7 +173,7 @@ class OsmWay {
 
 extension OsmNode: CustomStringConvertible {
     var description: String {
-        return "Node \(id) (visible: \(visible)) [\(lat),\(lon)] \(tags.reduce("") { $0 + "\n\t\($1.key) = \($1.value)" })"
+        return "\(id) (\(lat),\(lon))"
     }
 }
 

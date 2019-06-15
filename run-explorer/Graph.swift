@@ -10,12 +10,32 @@ import Foundation
 
 
 final class Graph<T: Hashable> {
-    private var adjecencyList = Dictionary<Vertex<T>, Set<Edge<T>>>()
+    private var adjecencyList: [Vertex<T>: Set<Edge<T>>] = [:]
 
     private var originVertex: Vertex<T>?
     
     typealias sptVertexState = (distance: Double, prev: Vertex<T>?)
-    private var spt: Dictionary<Vertex<T>, sptVertexState>?
+    private var spt: [Vertex<T>: sptVertexState]?
+    
+    var verticies: [Vertex<T>] {
+        return Array(adjecencyList.keys)
+    }
+    
+    var edgeCount: Int {
+        adjecencyList.reduce(0) {
+            return $0 + $1.value.count
+        }
+    }
+    
+    func edges(from source: Vertex<T>) -> [Edge<T>] {
+        guard let edges = adjecencyList[source] else { return [] }
+        return Array(edges)
+    }
+    
+    func add(vertex: Vertex<T>) {
+        guard adjecencyList[vertex] == nil else { return }  // do nothing if vertex exists
+        adjecencyList[vertex] = []  // if doesn't exist, init with no edges
+    }
     
     func addDirectedEdge(from source: Vertex<T>, to destination: Vertex<T>, weight: Double) {
         let edge = Edge(source: source, destination: destination, weight: weight)
@@ -32,6 +52,25 @@ final class Graph<T: Hashable> {
         addDirectedEdge(from: destination, to: source, weight: weight)
     }
     
+    func traverseDirected(from source: Vertex<T>, to destination: Vertex<T>) {
+        guard let edge = adjecencyList[source]?.first(where: { $0.destination == destination }) else { return }
+        edge.traversed = true
+    }
+    
+    func traverseUndirected(from source: Vertex<T>, to destination: Vertex<T>) {
+        traverseDirected(from: source, to: destination)
+        traverseDirected(from: destination, to: source)
+    }
+    
+    func untraverseAll() {
+        adjecencyList.forEach { vertex, edgeSet in
+            edgeSet.forEach { edge in
+                edge.traversed = false
+            }
+        }
+    }
+    
+    /// Compute shortest path tree from specified source using Dikjstra
     private func computeShortestPathTree(source: Vertex<T>) {
         // shortest path tree
         spt = Dictionary(minimumCapacity: adjecencyList.count)
@@ -63,7 +102,7 @@ final class Graph<T: Hashable> {
     }
     
     func shortestPathFromOrigin(to destination: Vertex<T>) -> [Vertex<T>] {
-        var shortestPath = Array<Vertex<T>>()
+        var shortestPath: [Vertex<T>] = []
         
         guard let origin = originVertex else {
             print("Origin is unset")
@@ -93,13 +132,16 @@ final class Graph<T: Hashable> {
     }
     
     func printGraph() {
+        var numEdges = 0
         for (vertex, edges) in adjecencyList {
             var edgeStr = "\(vertex):"
             for edge in edges {
-                edgeStr += " \(edge.destination)(\(edge.weight ?? Double.infinity))"
+                edgeStr += " \(edge.destination)(\(edge.weight))"
+                numEdges += 1
             }
             print(edgeStr)
         }
+        print("Summary: \(adjecencyList.count) nodes \(numEdges) edges")
     }
 }
 
@@ -123,10 +165,17 @@ class Vertex<T: Hashable>: Hashable, CustomStringConvertible {
     }
 }
 
-struct Edge<T: Hashable>: Hashable {
+class Edge<T: Hashable>: Hashable {
     var source: Vertex<T>
     var destination: Vertex<T>
     var weight: Double
+    var traversed = false
+    
+    init(source: Vertex<T>, destination: Vertex<T>, weight: Double) {
+        self.source = source
+        self.destination = destination
+        self.weight = weight
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(source)

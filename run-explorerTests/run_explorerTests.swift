@@ -52,6 +52,14 @@ class run_explorerTests: XCTestCase {
         graph.setOrigin(vertex: verticies[8])
         graph.shortestPathFromOrigin(to: verticies[4]).printPath()
     }
+    
+    func testOsmGraph() {
+        guard let url = Bundle.main.url(forResource: "arlington", withExtension: "osm") else { fatalError("Failed to get osm file") }
+        let osm = OsmParser(contentsOf: url)
+        let graph = osm.buildGraph()
+        graph.printGraph()
+        print("OSM nodes \(osm.nodes.count)")
+    }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.

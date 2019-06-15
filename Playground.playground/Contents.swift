@@ -1,3 +1,3 @@
 import Cocoa
 
-String(Int(Date().timeIntervalSince1970))
+1 + [3, 4]

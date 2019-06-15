@@ -21,7 +21,7 @@ class MapViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        return;     // while testing
+//        return;     // while testing
         
         let center = CLLocationCoordinate2D(latitude: 42.4176397, longitude: -71.1351914)
         let region = MKCoordinateRegion(center: center, latitudinalMeters: 2000, longitudinalMeters: 2000)
@@ -30,16 +30,12 @@ class MapViewController: NSViewController {
         
         guard let url = Bundle.main.url(forResource: "arlington", withExtension: "osm") else { fatalError("Failed to get osm file") }
         osm = OsmParser(contentsOf: url)
+        print("OSM: \(osm.ways.count) ways \(osm.nodes.count) nodes")
+        let graph = osm.buildGraph()
+        print("Graph: \(graph.edgeCount) edges \(graph.verticies.count) nodes")
         
-        let lines = osm.ways.map { way -> MKPolyline in
-            let coords = way.nodeIds.map({ nodeId -> CLLocationCoordinate2D? in
-                guard let node = osm?.nodes[nodeId] else { print("Node \(nodeId) not found"); return nil }
-                return CLLocationCoordinate2D(latitude: node.lat, longitude: node.lon)
-            }).compactMap { $0 }
-            let line = MKPolyline(coordinates: coords, count: coords.count)
-            line.title = "test"
-            return line
-        }
+        let lines = generateLinesFrom(graph: graph)
+//        let lines = generateLinesFrom(osm: osm)
 
         mapView.addOverlays(lines)
         print("Added \(lines.count) lines and \(osm!.nodes.count) nodes")
@@ -57,6 +53,47 @@ class MapViewController: NSViewController {
         didSet {
         // Update the view, if already loaded.
         }
+    }
+    
+    func generateLinesFrom(osm: OsmParser) -> [MKPolyline] {
+        let lines = osm.ways.map { way -> MKPolyline in
+            let coords = way.nodeIds.map({ nodeId -> CLLocationCoordinate2D? in
+                guard let node = osm.nodes[nodeId] else { print("Node \(nodeId) not found"); return nil }
+                return CLLocationCoordinate2D(latitude: node.lat, longitude: node.lon)
+            }).compactMap { $0 }
+            let line = MKPolyline(coordinates: coords, count: coords.count)
+            line.title = "test"
+            return line
+        }
+        
+        return lines
+    }
+    
+    func generateLinesFrom(graph: Graph<OsmNode>) -> [MKPolyline] {
+        var lines: [MKPolyline] = []
+        
+        for vertex in graph.verticies {
+            while case let path = buildPath(in: graph, from: vertex), path.count > 1 {
+                let coords = path.map { CLLocationCoordinate2D(latitude: $0.data.lat, longitude: $0.data.lon) }
+                lines.append(MKPolyline(coordinates: coords, count: coords.count))
+            }
+        }
+        
+        return lines
+    }
+    
+    func buildPath(in graph: Graph<OsmNode>, from source: Vertex<OsmNode>) -> [Vertex<OsmNode>] {
+        // find first unvisitted edge and traverse it
+        var path = [source]
+        
+        for edge in graph.edges(from: source) {
+            if !edge.traversed {
+                graph.traverseUndirected(from: source, to: edge.destination)
+                return path + buildPath(in: graph, from: edge.destination)
+            }
+        }
+        
+        return path
     }
     
     func plotActivities(activities: [ActivityStream]) {
