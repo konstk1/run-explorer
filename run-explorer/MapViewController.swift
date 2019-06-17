@@ -12,6 +12,7 @@ import MapKit
 class MapViewController: NSViewController {
     
     var osm: OsmParser!
+    var graph: Graph<OsmNode>!
     var strava: Strava!
     var activities: [ActivityStream]?
     var activityOverlays = Set<MKPolyline>()
@@ -22,23 +23,28 @@ class MapViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        return;     // while testing
+//        return;     // while testing
 
         let center = CLLocation(latitude: 42.412060, longitude: -71.142201)
         let region = MKCoordinateRegion(center: center.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
         mapView.setRegion(region, animated: false)
         mapView.delegate = self
         
+        let tapRecog = NSPressGestureRecognizer(target: self, action: #selector(self.pressed(gestureRecognizer:)))
+        tapRecog.minimumPressDuration = 1
+        mapView.addGestureRecognizer(tapRecog)
+        
         guard let url = Bundle.main.url(forResource: "arlington", withExtension: "osm") else { fatalError("Failed to get osm file") }
         osm = OsmParser(contentsOf: url)
         print("OSM: \(osm.ways.count) ways \(osm.nodes.count) nodes")
-        let graph = osm.buildGraph()
+        graph = osm.buildGraph()
         print("Graph: \(graph.edgeCount) edges \(graph.verticies.count) nodes")
         graph.clampToMaxDistance(from: center, distance: 2415)
        
         if let origin = graph.originVertex {
             let home = MKPointAnnotation()
             home.coordinate = CLLocationCoordinate2D(latitude: origin.data.lat, longitude: origin.data.lon)
+            home.title = "Home"
             mapView.addAnnotation(home)
         }
         
@@ -46,7 +52,7 @@ class MapViewController: NSViewController {
 //        let lines = generateLines(from: osm)
 
         mapView.addOverlays(lines)
-        print("Added \(lines.count) lines and \(osm!.nodes.count) nodes")
+        print("Added \(lines.count) lines and \(graph.verticies.count) nodes")
         
         strava = Strava()
         strava.auth()
@@ -73,7 +79,7 @@ class MapViewController: NSViewController {
     func generateLines(from graph: Graph<OsmNode>) -> [MKPolyline] {
         var lines: [MKPolyline] = []
         for vertex in graph.verticies {
-            while case let path = buildPath(in: graph, from: vertex), path.count > 1 {
+            while case let path = buildPath(from: vertex), path.count > 1 {
                 let coords = path.map { CLLocationCoordinate2D(latitude: $0.data.lat, longitude: $0.data.lon) }
                 lines.append(MKPolyline(coordinates: coords, count: coords.count))
             }
@@ -82,14 +88,21 @@ class MapViewController: NSViewController {
         return lines
     }
     
-    func buildPath(in graph: Graph<OsmNode>, from source: Vertex<OsmNode>) -> [Vertex<OsmNode>] {
+    func nearestVertex(to location: CLLocation) -> Vertex<OsmNode>? {
+        return graph.verticies.min { (v1, v2) -> Bool in
+            return location.distance(from: CLLocation(latitude: v1.data.lat, longitude: v1.data.lon)) <
+                   location.distance(from: CLLocation(latitude: v2.data.lat, longitude: v2.data.lon))
+        }
+    }
+    
+    func buildPath(from source: Vertex<OsmNode>) -> [Vertex<OsmNode>] {
         // find first unvisitted edge and traverse it
         let path = [source]
         
         for edge in graph.edges(from: source) {
             if !edge.traversed {
                 graph.traverseUndirected(from: source, to: edge.destination)
-                return path + buildPath(in: graph, from: edge.destination)
+                return path + buildPath(from: edge.destination)
             }
         }
         
@@ -105,12 +118,32 @@ class MapViewController: NSViewController {
     func highlightActivity(activity: ActivityStream) {
         let line = MKPolyline(coordinates: activity.coords, count: activity.coords.count)
         
-        if let overlay = selectedOverlay {
-            mapView.removeOverlay(overlay)
+        addHighlightedOverlay(overlay: line)
+    }
+    
+    func addHighlightedOverlay(overlay: MKOverlay) {
+        if let selectedOverlay = selectedOverlay {
+            mapView.removeOverlay(selectedOverlay)
         }
         
-        selectedOverlay = line
-        mapView.addOverlay(line)
+        selectedOverlay = overlay
+        mapView.addOverlay(overlay)
+    }
+    
+    @objc func pressed(gestureRecognizer: NSGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let point = gestureRecognizer.location(in: mapView)
+            let coord = mapView.convert(point, toCoordinateFrom: mapView)
+            print("Pressed \(coord)")
+            if let vertex = nearestVertex(to: CLLocation(latitude: coord.latitude, longitude: coord.longitude)) {
+                print("Found vertex \(vertex)")
+                let path = graph.shortestPathFromOrigin(to: vertex)
+                let coords = path.map { CLLocationCoordinate2D(latitude: $0.data.lat, longitude: $0.data.lon) }
+                let line = MKPolyline(coordinates: coords, count: coords.count)
+                addHighlightedOverlay(overlay: line)
+                print("Distance \(graph.shortestDistanceFromOrigin(to: vertex) / 1609.344) mi")
+            }
+        }
     }
 }
 
@@ -162,5 +195,21 @@ extension MapViewController: MKMapViewDelegate {
             return lineRender
         }
         return MKOverlayRenderer()
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+        
+        let identifier = "Annotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+        
+        return annotationView
     }
 }
