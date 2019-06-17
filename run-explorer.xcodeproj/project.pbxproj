@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF1A84F622B7F62F0051F3C4 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A84F522B7F62F0051F3C4 /* PriorityQueue.swift */; };
 		FF20BCE522B18E3100D6A2FB /* arlington.osm in Resources */ = {isa = PBXBuildFile; fileRef = FF20BCE422B18E3100D6A2FB /* arlington.osm */; };
 		FF38EB6B22B2BE3000D0C747 /* Todo.txt in Resources */ = {isa = PBXBuildFile; fileRef = FF38EB6A22B2BE3000D0C747 /* Todo.txt */; };
 		FF38EB6D22B2CBDA00D0C747 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF38EB6C22B2CBDA00D0C747 /* Graph.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF1A84F522B7F62F0051F3C4 /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
 		FF20BCE422B18E3100D6A2FB /* arlington.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = arlington.osm; path = ../data/maps/arlington.osm; sourceTree = "<group>"; };
 		FF38EB6A22B2BE3000D0C747 /* Todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo.txt; sourceTree = "<group>"; };
 		FF38EB6C22B2CBDA00D0C747 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				FF5A254C22A1A3AA006FC3FD /* MapViewController.swift */,
 				FF5A256D22A1B375006FC3FD /* OsmParser.swift */,
 				FF38EB6C22B2CBDA00D0C747 /* Graph.swift */,
+				FF1A84F522B7F62F0051F3C4 /* PriorityQueue.swift */,
 				FF5A257522A3550F006FC3FD /* Strava.swift */,
 				FF87111A22A8180A004DF7C1 /* Strava+Auth.swift */,
 				FF87111C22A81AA6004DF7C1 /* Strava+Activity.swift */,
@@ -246,6 +249,7 @@
 				FF5A254D22A1A3AA006FC3FD /* MapViewController.swift in Sources */,
 				FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */,
 				FF38EB6D22B2CBDA00D0C747 /* Graph.swift in Sources */,
+				FF1A84F622B7F62F0051F3C4 /* PriorityQueue.swift in Sources */,
 				FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */,
 				FF5A254B22A1A3AA006FC3FD /* AppDelegate.swift in Sources */,
 			);

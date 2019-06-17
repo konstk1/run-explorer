@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import CoreLocation
 @testable import run_explorer
 
 class run_explorerTests: XCTestCase {
@@ -14,7 +15,7 @@ class run_explorerTests: XCTestCase {
     var graph: Graph<OsmNode>!
 
     override func setUp() {
-        guard let url = Bundle.main.url(forResource: "arlington", withExtension: "osm") else { fatalError("Failed to get osm file") }
+        guard let url = Bundle.main.url(forResource: "test", withExtension: "osm") else { fatalError("Failed to get osm file") }
         osm = OsmParser(contentsOf: url)
         graph = osm.buildGraph()
     }
@@ -61,11 +62,34 @@ class run_explorerTests: XCTestCase {
         
         
     }
+    
+    func testPriorityQueue() {
+        let q = PriorityQueue<Int>(sort: <)
+        q.enqueue(element: 1)
+        q.enqueue(element: 12)
+        q.enqueue(element: 3)
+        q.enqueue(element: 4)
+        q.enqueue(element: 1)
+        q.enqueue(element: 6)
+        q.enqueue(element: 8)
+        q.enqueue(element: 7)
+        q.enqueue(element: 13)
+//        1,12,3,4,1,6,8,7,13
+//        13,12,8,7,6,4,3,1,1
+        
+        while !q.isEmpty {
+            print(q.dequeue()!)
+        }
+    }
 
     func testGraphPerformance() {
         // This is an example of a performance test case.
+        var i = 0
+        let center = CLLocation(latitude: 42.412060, longitude: -71.142201)
+        
+
         self.measure {
-            graph!.remove(vertex: graph.verticies[0])
+            graph.computeShortestPathTree(source: graph.verticies[0])
         }
     }
 

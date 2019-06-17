@@ -10,54 +10,60 @@ import Foundation
 import CoreLocation
 
 final class Graph<T: Hashable> {
-    private var adjecencyList: [Vertex<T>: Set<Edge<T>>] = [:]
+    private var adjacencyList: [Vertex<T>: Set<Edge<T>>] = [:]
 
     private(set) var originVertex: Vertex<T>?
     
     typealias sptVertexState = (distance: Double, prev: Vertex<T>?)
-    private var spt: [Vertex<T>: sptVertexState]?
+    private var spt: [Vertex<T>: sptVertexState] = [:]
     
     var verticies: [Vertex<T>] {
-        return Array(adjecencyList.keys)
+        return Array(adjacencyList.keys)
     }
     
     var edgeCount: Int {
-        adjecencyList.reduce(0) {
+        adjacencyList.reduce(0) {
             return $0 + $1.value.count
         }
     }
     
     func edges(from source: Vertex<T>) -> [Edge<T>] {
-        guard let edges = adjecencyList[source] else { return [] }
+        guard let edges = adjacencyList[source] else { return [] }
         return Array(edges)
     }
     
     func add(vertex: Vertex<T>) {
-        guard adjecencyList[vertex] == nil else { return }  // do nothing if vertex exists
-        adjecencyList[vertex] = []  // if doesn't exist, init with no edges
+        guard adjacencyList[vertex] == nil else { return }  // do nothing if vertex exists
+        adjacencyList[vertex] = []  // if doesn't exist, init with no edges
+        resetSpt()
     }
     
+    /// removes vertex from graph and any associated edges
+    /// warning: assumes all edges is undirected to avoid iterating through every edge
     func remove(vertex: Vertex<T>) {
         // remove vertex from graph
-        adjecencyList.removeValue(forKey: vertex)
-        
-        // remove any edges to this vertex
-        adjecencyList.forEach { (arg) in
-            var (_, edge) = arg
-            if let edgeToRemove = edge.first(where: { $0.destination == vertex }) {
-                edge.remove(edgeToRemove)
+        if let edges = adjacencyList[vertex] {
+            for edge in edges {
+                if let edgeToRemove = adjacencyList[edge.destination]?.first(where: { $0.destination == vertex }) {
+                    adjacencyList[edge.destination]?.remove(edgeToRemove)
+                }
             }
         }
+        
+        adjacencyList.removeValue(forKey: vertex)
+        resetSpt()
     }
     
     func addDirectedEdge(from source: Vertex<T>, to destination: Vertex<T>, weight: Double) {
         let edge = Edge(source: source, destination: destination, weight: weight)
         
-        if adjecencyList[source] == nil {
-            adjecencyList[source] = [edge]
+        if adjacencyList[source] == nil {
+            adjacencyList[source] = [edge]
         } else {
-            adjecencyList[source]?.update(with: edge)
+            adjacencyList[source]?.update(with: edge)
         }
+        
+        resetSpt()
     }
     
     func addUndirectedEdge(from source: Vertex<T>, to destination: Vertex<T>, weight: Double) {
@@ -66,7 +72,7 @@ final class Graph<T: Hashable> {
     }
     
     func traverseDirected(from source: Vertex<T>, to destination: Vertex<T>) {
-        guard let edge = adjecencyList[source]?.first(where: { $0.destination == destination }) else { return }
+        guard let edge = adjacencyList[source]?.first(where: { $0.destination == destination }) else { return }
         edge.traversed = true
     }
     
@@ -76,38 +82,48 @@ final class Graph<T: Hashable> {
     }
     
     func untraverseAll() {
-        adjecencyList.forEach { vertex, edgeSet in
+        adjacencyList.forEach { vertex, edgeSet in
             edgeSet.forEach { edge in
                 edge.traversed = false
             }
         }
     }
     
+    private func resetSpt() {
+        spt = [:]
+        spt.reserveCapacity(adjacencyList.count)
+    }
+    
     /// Compute shortest path tree from specified source using Dikjstra
-    private func computeShortestPathTree(source: Vertex<T>) {
+    internal func computeShortestPathTree(source: Vertex<T>) {
         // shortest path tree
-        spt = Dictionary(minimumCapacity: adjecencyList.count)
+        resetSpt()
         
-        var unvisitted = Set<Vertex<T>>()
+        var visitted = Set<Vertex<T>>(minimumCapacity: adjacencyList.count)
         
-        for vertex in adjecencyList.keys {
-            spt![vertex] = (Double.infinity, nil)
-            unvisitted.insert(vertex)
+        for vertex in adjacencyList.keys {
+            spt[vertex] = (Double.infinity, nil)
+//            unvisitted.insert(vertex)
         }
-        spt![source] = (0, nil)
+        spt[source] = (0, nil)
         
-        while let vertex = unvisitted.min(by: { spt![$0]!.distance < spt![$1]!.distance }) {
-            guard let edges = adjecencyList[vertex] else { print("No edges for \(vertex)"); return }
+        let minQ = PriorityQueue<(Vertex<T>, Double)>(sort: { return $0.1 < $1.1 })
+        minQ.enqueue(element: (source, 0))
+        
+        while let (vertex, _) = minQ.dequeue() {
+            guard !visitted.contains(vertex) else { continue }      // if node has been visitted, skip it and go to next
+            guard let edges = adjacencyList[vertex] else { print("No edges for \(vertex)"); return }
                 
             for edge in edges {
-                let alt = spt![vertex]!.distance + edge.weight
-                if let (currentDistance, _) = spt![edge.destination], unvisitted.contains(edge.destination) && alt < currentDistance {
-                    spt![edge.destination] = (alt, vertex)
+                let alt = spt[vertex]!.distance + edge.weight
+                if let (currentDistance, _) = spt[edge.destination], !visitted.contains(edge.destination) && alt < currentDistance {
+                    spt[edge.destination] = (alt, vertex)
+                    minQ.enqueue(element: (edge.destination, alt))
                 }
             }
-                
-            unvisitted.remove(vertex)
-            print("SPT univisitted \(unvisitted.count)")
+            
+            visitted.insert(vertex)
+//            print("SPT visitted \(visitted.count)")
         }
         
 //        for entry in spt! {
@@ -121,7 +137,8 @@ final class Graph<T: Hashable> {
             return []
         }
         
-        if spt == nil {
+        // re-calc SPT if number of verticies doesn't match
+        if spt.count == 0 {
             print("Calculating SPT...")
             computeShortestPathTree(source: origin)
         }
@@ -130,7 +147,7 @@ final class Graph<T: Hashable> {
         var shortestPath = [destination]
         
         var vertex: Vertex? = destination
-        while let sv = spt?[vertex!]?.prev {
+        while let sv = spt[vertex!]?.prev {
             shortestPath.append(sv)
             vertex = sv
         }
@@ -143,18 +160,23 @@ final class Graph<T: Hashable> {
         return shortestPath.reversed()
     }
     
+    func shortestDistanceFromOrigin(to destination: Vertex<T>) -> Double {
+        guard let state = spt[destination] else { return .infinity }
+        return state.distance
+    }
+    
     func setOrigin(vertex: Vertex<T>) {
         guard originVertex != vertex else { return }  // nothing to do if origin hasn't changed
         
         // if new origin, save it and clear shortest path tree
         originVertex = vertex
-        spt = nil
+        spt.removeAll()
     }
     
     // 1.5mi = 2414.016m
     func clampToMaxDistance(from location: CLLocation, distance maxDistance: CLLocationDistance) {
         // find vertex nearest to center
-        let origin = adjecencyList.keys.min { v1, v2 in
+        let origin = adjacencyList.keys.min { v1, v2 in
             guard let v1 = v1 as? Vertex<OsmNode>, let v2 = v2 as? Vertex<OsmNode> else { return false }
             return location.distance(from: CLLocation(latitude: v1.data.lat, longitude: v1.data.lon)) < location.distance(from: CLLocation(latitude: v2.data.lat, longitude: v2.data.lon))
         }
@@ -167,34 +189,19 @@ final class Graph<T: Hashable> {
         
         var numRemoved = 0
         
-        for (vertex, state) in spt! {
-            print("Processing \((vertex.data as! OsmNode).id)")
+        for (vertex, state) in spt {
             if state.distance > maxDistance {
                 remove(vertex: vertex)
                 numRemoved += 1
             }
         }
         
-        print("Removed \(numRemoved) vertecies")
-
-//        for vertex in adjecencyList.keys {
-//            var distanceToCenter: CLLocationDistance = 0
-//
-//            if let v = vertex as? Vertex<OsmNode> {
-//                distanceToCenter = center.distance(from: CLLocation(latitude: v.data.lat, longitude: v.data.lon))
-//            }
-//
-//            print("Processing \(vertex.data) [\(distanceToCenter)]")
-//
-//            if distanceToCenter > radius {
-//                remove(vertex: vertex)
-//            }
-//        }
+        print("Clipping to \(maxDistance)m -> removed \(numRemoved) vertecies")
     }
     
     func printGraph() {
         var numEdges = 0
-        for (vertex, edges) in adjecencyList {
+        for (vertex, edges) in adjacencyList {
             var edgeStr = "\(vertex):"
             for edge in edges {
                 edgeStr += " \(edge.destination)(\(edge.weight))"
@@ -202,7 +209,7 @@ final class Graph<T: Hashable> {
             }
             print(edgeStr)
         }
-        print("Summary: \(adjecencyList.count) nodes \(numEdges) edges")
+        print("Summary: \(adjacencyList.count) nodes \(numEdges) edges")
     }
 }
 

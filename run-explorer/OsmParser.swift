@@ -34,8 +34,8 @@ final class OsmParser: NSObject {
         
         for way in ways {
             for (i, nodeId) in way.nodeIds[0..<way.nodeIds.count - 1].enumerated() {
-                let source = nodes[nodeId]!
-                let destination = nodes[way.nodeIds[i+1]]!
+                guard let source = nodes[nodeId],
+                      let destination = nodes[way.nodeIds[i+1]] else { continue }
                 let c1 = CLLocation(latitude: source.lat, longitude: source.lon)
                 let c2 = CLLocation(latitude: destination.lat, longitude: destination.lon)
                 let distance = c1.distance(from: c2)
