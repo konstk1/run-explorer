@@ -27,7 +27,7 @@ struct ActivityStream {
 }
 
 extension Strava {
-    func getActivities(after: Date? = nil, before: Date? = nil, page: Int? = nil, perPage: Int? = nil) {
+    func getActivities(after: Date? = nil, before: Date? = nil, page: Int? = nil, perPage: Int? = nil, completion: ((Result<Int, Error>) -> Void)? = nil) {
         var components = Endpoint.activityList.asUrlComponents()
         components.queryItems = Array<URLQueryItem>()
         
@@ -64,8 +64,10 @@ extension Strava {
                             try! stream.write(toFile: fileName, atomically: true, encoding: .utf8)
                         }
                     }
+                    completion?(.success(activities.count))
                 } catch {
                     print("Failed decode: \(error)")
+                    completion?(.failure(error))
                 }
             case .failure(let error):
                 print("Error: \(error)")

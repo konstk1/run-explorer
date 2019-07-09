@@ -20,6 +20,7 @@ class MapViewController: NSViewController {
     
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var tableView: NSTableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,11 +57,26 @@ class MapViewController: NSViewController {
         
         strava = Strava()
         strava.auth()
+        
+        refreshStravaActivities()
+    }
+    
+    func refreshStravaActivities() {
         activities = strava.loadStreamsFromDisk()?.sorted{ $0.startDate < $1.startDate }
         plotActivities(activities: activities!)
         
         let startDate = activities?.last?.startDate
-        strava.getActivities(after: startDate, perPage: 100)
+        strava.getActivities(after: startDate, perPage: 100) { [weak self] result in
+            switch result {
+            case .success(let numActivities):
+                print("Refreshed \(numActivities) activities")
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("Failed to refresh Strava activities: \(error)")
+            }
+        }
     }
     
     func generateLines(from osm: OsmParser) -> [MKPolyline] {
@@ -110,6 +126,10 @@ class MapViewController: NSViewController {
     }
     
     func plotActivities(activities: [ActivityStream]) {
+        // remove existing strava activity overlays
+        mapView.removeOverlays(Array(activityOverlays))
+        
+        // add strava activity overlays
         let lines = activities.map { MKPolyline(coordinates: $0.coords, count: $0.coords.count) }
         activityOverlays = Set<MKPolyline>(lines)
         mapView.addOverlays(lines);
@@ -145,6 +165,10 @@ class MapViewController: NSViewController {
             }
         }
     }
+    
+    @IBAction func refreshPressed(_ sender: NSButton) {
+        refreshStravaActivities()
+    }
 }
 
 extension MapViewController: NSTableViewDataSource, NSTableViewDelegate {
@@ -167,7 +191,13 @@ extension MapViewController: NSTableViewDataSource, NSTableViewDelegate {
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard let tableView = notification.object as? NSTableView, tableView.selectedRow >= 0,
-              let activity = activities?[tableView.selectedRow] else { return }
+              let activity = activities?[tableView.selectedRow] else {
+                // if nothing is selected, clear out selected overlay
+                if let selectedOverlay = selectedOverlay {
+                    mapView.removeOverlay(selectedOverlay)
+                }
+                return
+        }
         
         highlightActivity(activity: activity)
         mapView.centerCoordinate = activity.coords.first!

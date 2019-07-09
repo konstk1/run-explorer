@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14810.11" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14810.11"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="14810.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="14835.7"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -717,13 +717,13 @@
                                 </constraints>
                             </mapView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgX-aC-WaH">
-                                <rect key="frame" x="445" y="10" width="145" height="380"/>
+                                <rect key="frame" x="445" y="41" width="145" height="349"/>
                                 <clipView key="contentView" id="PDx-iq-zxZ">
-                                    <rect key="frame" x="1" y="1" width="143" height="378"/>
+                                    <rect key="frame" x="1" y="1" width="143" height="347"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="m2h-1R-jvw">
-                                            <rect key="frame" x="0.0" y="0.0" width="143" height="378"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="143" height="347"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -782,19 +782,33 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZvP-EG-QqM">
+                                <rect key="frame" x="439" y="3" width="157" height="32"/>
+                                <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hzP-JZ-DAX">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="refreshPressed:" target="XfG-lQ-9wD" id="CmW-ec-2dH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="xgX-aC-WaH" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="4tz-Jt-igm"/>
-                            <constraint firstAttribute="bottom" secondItem="xgX-aC-WaH" secondAttribute="bottom" constant="10" id="94m-OU-2DK"/>
+                            <constraint firstItem="ZvP-EG-QqM" firstAttribute="trailing" secondItem="xgX-aC-WaH" secondAttribute="trailing" id="8XB-Jd-Fb4"/>
+                            <constraint firstItem="ZvP-EG-QqM" firstAttribute="leading" secondItem="xgX-aC-WaH" secondAttribute="leading" id="EN5-Ve-g8k"/>
                             <constraint firstItem="FaR-0z-Q7V" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="JxI-UH-WLQ"/>
                             <constraint firstAttribute="bottom" secondItem="FaR-0z-Q7V" secondAttribute="bottom" constant="10" id="O9z-LB-FHI"/>
+                            <constraint firstItem="ZvP-EG-QqM" firstAttribute="top" secondItem="xgX-aC-WaH" secondAttribute="bottom" constant="10" id="UVG-3v-nVF"/>
                             <constraint firstAttribute="trailing" secondItem="xgX-aC-WaH" secondAttribute="trailing" constant="10" id="guv-Cl-gjh"/>
                             <constraint firstItem="xgX-aC-WaH" firstAttribute="leading" secondItem="FaR-0z-Q7V" secondAttribute="trailing" constant="10" id="r0V-9r-sAw"/>
                             <constraint firstItem="FaR-0z-Q7V" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="wx9-e5-ePc"/>
+                            <constraint firstAttribute="bottom" secondItem="ZvP-EG-QqM" secondAttribute="bottom" constant="10" id="zP4-pT-ING"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="FaR-0z-Q7V" id="M2D-yD-UId"/>
+                        <outlet property="tableView" destination="m2h-1R-jvw" id="sYb-Xg-sZj"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
