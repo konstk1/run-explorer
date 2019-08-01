@@ -18,19 +18,18 @@ class MapViewController: NSViewController {
     var activityOverlays = Set<MKPolyline>()
     var selectedOverlay: MKOverlay?
     
+    let center = CLLocation(latitude: 42.412060, longitude: -71.142201)
+
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var distanceLabel: NSTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        return;     // while testing
 
-        let center = CLLocation(latitude: 42.412060, longitude: -71.142201)
-        let region = MKCoordinateRegion(center: center.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
-        mapView.setRegion(region, animated: false)
         mapView.delegate = self
-        
         let tapRecog = NSPressGestureRecognizer(target: self, action: #selector(self.pressed(gestureRecognizer:)))
         tapRecog.minimumPressDuration = 1
         mapView.addGestureRecognizer(tapRecog)
@@ -40,6 +39,7 @@ class MapViewController: NSViewController {
         print("OSM: \(osm.ways.count) ways \(osm.nodes.count) nodes")
         graph = osm.buildGraph()
         print("Graph: \(graph.edgeCount) edges \(graph.verticies.count) nodes")
+        // 1.5mi = 2415m, 1.25mi = 2012m
         graph.clampToMaxDistance(from: center, distance: 2415)
        
         if let origin = graph.originVertex {
@@ -61,7 +61,14 @@ class MapViewController: NSViewController {
         refreshStravaActivities()
     }
     
+    override func viewDidAppear() {
+        print("Window \(mapView.frame)")
+        let region = MKCoordinateRegion(center: center.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
+        mapView.setRegion(region, animated: false)
+    }
+    
     func refreshStravaActivities() {
+        print("Window \(mapView.frame)")
         activities = strava.loadStreamsFromDisk()?.sorted{ $0.startDate < $1.startDate }
         plotActivities(activities: activities!)
         
@@ -161,7 +168,11 @@ class MapViewController: NSViewController {
                 let coords = path.map { CLLocationCoordinate2D(latitude: $0.data.lat, longitude: $0.data.lon) }
                 let line = MKPolyline(coordinates: coords, count: coords.count)
                 addHighlightedOverlay(overlay: line)
-                print("Distance \(graph.shortestDistanceFromOrigin(to: vertex) / 1609.344) mi")
+                
+                // update distance label
+                let distanceMi = graph.shortestDistanceFromOrigin(to: vertex).metersToMiles()
+                print("Distance \(distanceMi) mi")
+                distanceLabel.stringValue = String(format: "%.2f mi", distanceMi)
             }
         }
     }
@@ -241,5 +252,14 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         return annotationView
+    }
+}
+
+class MapWindowController: NSWindowController {
+    override func windowDidLoad() {
+        super.windowDidLoad()
+        
+        // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+        self.windowFrameAutosaveName = NSWindow.FrameAutosaveName(stringLiteral: "position")
     }
 }

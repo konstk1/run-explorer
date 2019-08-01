@@ -1,4 +1,4 @@
-- Save clipped graph and SPT to avoid re-computing
+- Route planning mode (ala MapMyRun)
 
 
 // Overpass QL (OSM) query

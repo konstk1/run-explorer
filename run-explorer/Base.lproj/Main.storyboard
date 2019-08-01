@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14854.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="14835.7"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14854.2"/>
+        <plugIn identifier="com.apple.MapKitIBPlugin" version="14854.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -685,8 +685,8 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Run Explorer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                <windowController id="B8D-0N-5wS" customClass="MapWindowController" customModule="run_explorer" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Run Explorer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -711,25 +711,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="FaR-0z-Q7V">
-                                <rect key="frame" x="10" y="10" width="425" height="380"/>
+                                <rect key="frame" x="10" y="10" width="415" height="380"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="335" id="ur6-nc-ZcO"/>
                                 </constraints>
                             </mapView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgX-aC-WaH">
-                                <rect key="frame" x="445" y="41" width="145" height="349"/>
+                                <rect key="frame" x="435" y="41" width="155" height="306"/>
                                 <clipView key="contentView" id="PDx-iq-zxZ">
-                                    <rect key="frame" x="1" y="1" width="143" height="347"/>
+                                    <rect key="frame" x="1" y="1" width="153" height="304"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="m2h-1R-jvw">
-                                            <rect key="frame" x="0.0" y="0.0" width="143" height="347"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="153" height="304"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="140" minWidth="40" maxWidth="1000" id="xJC-gE-DSF">
+                                                <tableColumn width="150" minWidth="40" maxWidth="1000" id="xJC-gE-DSF">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -743,11 +743,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="RunCell" id="yug-XR-PHA">
-                                                            <rect key="frame" x="1" y="1" width="140" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="150" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IVu-5N-6T9">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="140" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="csX-Oi-yTA">
                                                                         <font key="font" metaFont="system"/>
@@ -771,7 +771,7 @@
                                     </subviews>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="145" id="6gT-Vm-Wfz"/>
+                                    <constraint firstAttribute="width" constant="155" id="6gT-Vm-Wfz"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="GuR-Da-AHm">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
@@ -783,7 +783,7 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZvP-EG-QqM">
-                                <rect key="frame" x="439" y="3" width="157" height="32"/>
+                                <rect key="frame" x="429" y="3" width="167" height="32"/>
                                 <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hzP-JZ-DAX">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -792,21 +792,52 @@
                                     <action selector="refreshPressed:" target="XfG-lQ-9wD" id="CmW-ec-2dH"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xiq-54-dPE">
+                                <rect key="frame" x="433" y="349" width="38" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Runs:" id="xpm-j1-2Gv">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Egg-dJ-5LV">
+                                <rect key="frame" x="433" y="374" width="61" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Distance:" id="n25-KU-ThF">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fnT-E7-Y4x">
+                                <rect key="frame" x="537" y="374" width="50" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="0.00 mi" id="osn-1f-IMV">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="xgX-aC-WaH" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="4tz-Jt-igm"/>
                             <constraint firstItem="ZvP-EG-QqM" firstAttribute="trailing" secondItem="xgX-aC-WaH" secondAttribute="trailing" id="8XB-Jd-Fb4"/>
                             <constraint firstItem="ZvP-EG-QqM" firstAttribute="leading" secondItem="xgX-aC-WaH" secondAttribute="leading" id="EN5-Ve-g8k"/>
+                            <constraint firstItem="fnT-E7-Y4x" firstAttribute="centerY" secondItem="Egg-dJ-5LV" secondAttribute="centerY" id="JjJ-ph-Gie"/>
                             <constraint firstItem="FaR-0z-Q7V" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="JxI-UH-WLQ"/>
                             <constraint firstAttribute="bottom" secondItem="FaR-0z-Q7V" secondAttribute="bottom" constant="10" id="O9z-LB-FHI"/>
+                            <constraint firstItem="xgX-aC-WaH" firstAttribute="top" secondItem="xiq-54-dPE" secondAttribute="bottom" constant="2" id="Oi1-o8-h93"/>
+                            <constraint firstItem="Egg-dJ-5LV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="10" id="Qxm-gq-2RN"/>
                             <constraint firstItem="ZvP-EG-QqM" firstAttribute="top" secondItem="xgX-aC-WaH" secondAttribute="bottom" constant="10" id="UVG-3v-nVF"/>
+                            <constraint firstItem="xiq-54-dPE" firstAttribute="leading" secondItem="Egg-dJ-5LV" secondAttribute="leading" id="bZJ-ke-cbC"/>
                             <constraint firstAttribute="trailing" secondItem="xgX-aC-WaH" secondAttribute="trailing" constant="10" id="guv-Cl-gjh"/>
+                            <constraint firstItem="fnT-E7-Y4x" firstAttribute="trailing" secondItem="xgX-aC-WaH" secondAttribute="trailing" constant="-5" id="jXk-Vw-7Po"/>
                             <constraint firstItem="xgX-aC-WaH" firstAttribute="leading" secondItem="FaR-0z-Q7V" secondAttribute="trailing" constant="10" id="r0V-9r-sAw"/>
+                            <constraint firstItem="xgX-aC-WaH" firstAttribute="leading" secondItem="Egg-dJ-5LV" secondAttribute="leading" id="vDM-JN-Dg0"/>
+                            <constraint firstItem="xiq-54-dPE" firstAttribute="top" secondItem="Egg-dJ-5LV" secondAttribute="bottom" constant="9" id="vkn-aQ-gSt"/>
                             <constraint firstItem="FaR-0z-Q7V" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="wx9-e5-ePc"/>
                             <constraint firstAttribute="bottom" secondItem="ZvP-EG-QqM" secondAttribute="bottom" constant="10" id="zP4-pT-ING"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="distanceLabel" destination="fnT-E7-Y4x" id="2Fo-Ye-798"/>
                         <outlet property="mapView" destination="FaR-0z-Q7V" id="M2D-yD-UId"/>
                         <outlet property="tableView" destination="m2h-1R-jvw" id="sYb-Xg-sZj"/>
                     </connections>

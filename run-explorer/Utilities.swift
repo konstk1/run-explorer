@@ -22,6 +22,12 @@ extension String {
     }
 }
 
+extension Double {
+    func metersToMiles() -> Double {
+        return self / 1609.344
+    }
+}
+
 extension URLSession {
     func dataTask(with request: URLRequest, result: @escaping (Result<(URLResponse, Data), Error>) -> Void) -> URLSessionDataTask {
         return dataTask(with: request) { (data, response, error) in
