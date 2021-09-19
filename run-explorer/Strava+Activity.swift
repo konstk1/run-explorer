@@ -12,11 +12,12 @@ import CoreLocation
 struct Activity: Decodable {
     var id: Int
     var startDate: String
+    var type: String
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case startDate = "start_date"
-        
+        case type = "type"
     }
 }
 
@@ -52,11 +53,17 @@ extension Strava {
         
         urlSession.dataTask(with: request) { [unowned self] (result) in
             switch result {
-            case .success(_, let data):
+            case .success((_, let data)):
                 do {
                     let activities = try JSONDecoder().decode([Activity].self, from: data)
                     print("Got \(activities.count) activities")
                     activities.forEach { activity in
+                        // only keep run activities
+                        guard activity.type == "Run" else {
+                            print("Ignoring activity (\(activity.id)) type \(activity.type)")
+                            return
+                        }
+
                         self.getActivityStream(forActivity: activity.id) { stream in
                             print("Saving activity \(activity.id)")
                             let date = activity.startDate.split(separator: "T").first ?? "null"
@@ -89,7 +96,7 @@ extension Strava {
         
         urlSession.dataTask(with: request) { [weak self] (result) in
             switch result {
-            case .success(let response, let data):
+            case .success((let response, let data)):
                 self?.printRateLimitInfo(response: response as? HTTPURLResponse)
                 let json = try! JSONSerialization.jsonObject(with: data) as! [Any]
                 json.forEach {

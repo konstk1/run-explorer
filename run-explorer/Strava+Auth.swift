@@ -93,7 +93,7 @@ extension Strava {
         
         urlSession.dataTask(with: request) { [weak self] (result: Result<(URLResponse, Data), Error>) in
             switch result {
-            case .success(_, let data):
+            case .success((_, let data)):
                 do {
                     let response = try JSONDecoder().decode(TokenResponse.self, from: data)
                     self?.accessToken = response.accessToken
