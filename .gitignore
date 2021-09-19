@@ -67,4 +67,11 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 .DS_Store
 Secrets.plist
-data/
+
+# Ignore all but the run on 3/5 (start of arlington data)
+data/strava/*
+!data/strava/2019-03-05 - 2193439587.txt
+
+# Ignore all but arlington maps
+data/maps/*
+!data/maps/arlington.osm

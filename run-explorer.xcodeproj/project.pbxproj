@@ -17,7 +17,6 @@
 		FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255122A1A3AB006FC3FD /* Assets.xcassets */; };
 		FF5A255522A1A3AB006FC3FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF5A255322A1A3AB006FC3FD /* Main.storyboard */; };
 		FF5A256122A1A3AB006FC3FD /* run_explorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A256022A1A3AB006FC3FD /* run_explorerTests.swift */; };
-		FF5A256C22A1B103006FC3FD /* test.osm in Resources */ = {isa = PBXBuildFile; fileRef = FF5A256B22A1B103006FC3FD /* test.osm */; };
 		FF5A256E22A1B375006FC3FD /* OsmParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A256D22A1B375006FC3FD /* OsmParser.swift */; };
 		FF5A257122A1BDA6006FC3FD /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257022A1BDA5006FC3FD /* Utilities.swift */; };
 		FF5A257622A3550F006FC3FD /* Strava.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A257522A3550F006FC3FD /* Strava.swift */; };
@@ -51,7 +50,6 @@
 		FF5A255C22A1A3AB006FC3FD /* run-explorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "run-explorerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5A256022A1A3AB006FC3FD /* run_explorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = run_explorerTests.swift; sourceTree = "<group>"; };
 		FF5A256222A1A3AB006FC3FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FF5A256B22A1B103006FC3FD /* test.osm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = test.osm; path = ../data/maps/test.osm; sourceTree = "<group>"; };
 		FF5A256D22A1B375006FC3FD /* OsmParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OsmParser.swift; sourceTree = "<group>"; };
 		FF5A257022A1BDA5006FC3FD /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		FF5A257522A3550F006FC3FD /* Strava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strava.swift; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 				FF5A257922A4168B006FC3FD /* run-explorer.entitlements */,
 				FF5A254E22A1A3AA006FC3FD /* run_explorer.xcdatamodeld */,
 				FF20BCE422B18E3100D6A2FB /* arlington.osm */,
-				FF5A256B22A1B103006FC3FD /* test.osm */,
 				FF38EB6A22B2BE3000D0C747 /* Todo.txt */,
 			);
 			path = "run-explorer";
@@ -219,7 +216,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF5A256C22A1B103006FC3FD /* test.osm in Resources */,
 				FF5A257822A3593C006FC3FD /* Secrets.plist in Resources */,
 				FF38EB6B22B2BE3000D0C747 /* Todo.txt in Resources */,
 				FF5A255222A1A3AB006FC3FD /* Assets.xcassets in Resources */,
