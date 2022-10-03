@@ -69,7 +69,7 @@ class MapViewController: NSViewController {
     
     func refreshStravaActivities() {
         print("Window \(mapView.frame)")
-        activities = strava.loadStreamsFromDisk()?.sorted{ $0.startDate < $1.startDate }
+        activities = strava.loadStreamsFromDisk()?.sorted{ $0.startDate >= $1.startDate }
         plotActivities(activities: activities!)
         
         let startDate = activities?.last?.startDate
@@ -139,7 +139,7 @@ class MapViewController: NSViewController {
         // add strava activity overlays
         let lines = activities.map { MKPolyline(coordinates: $0.coords, count: $0.coords.count) }
         activityOverlays = Set<MKPolyline>(lines)
-        mapView.addOverlays(lines);
+        mapView.addOverlays(lines, level: .aboveLabels);
     }
     
     func highlightActivity(activity: ActivityStream) {
