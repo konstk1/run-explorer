@@ -72,7 +72,7 @@ class MapViewController: NSViewController {
         activities = strava.loadStreamsFromDisk()?.sorted{ $0.startDate >= $1.startDate }
         plotActivities(activities: activities!)
         
-        let startDate = activities?.last?.startDate
+        let startDate = activities?.first?.startDate
         strava.getActivities(after: startDate, perPage: 100) { [weak self] result in
             switch result {
             case .success(let numActivities):
@@ -154,7 +154,7 @@ class MapViewController: NSViewController {
         }
         
         selectedOverlay = overlay
-        mapView.addOverlay(overlay)
+        mapView.addOverlay(overlay, level: .aboveLabels)
     }
     
     @objc func pressed(gestureRecognizer: NSGestureRecognizer) {

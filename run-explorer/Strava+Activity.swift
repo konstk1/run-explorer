@@ -50,6 +50,8 @@ extension Strava {
         if let accessToken = accessToken {
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
+
+        print("Fetching activities after: \(after!) (\(String(Int(after!.timeIntervalSince1970)))")
         
         urlSession.dataTask(with: request) { [unowned self] (result) in
             switch result {
