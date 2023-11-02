@@ -126,6 +126,11 @@ extension Strava {
         do {
             let fileNames = try fileMgr.contentsOfDirectory(atPath: dataDir)
             let streams = fileNames.compactMap { (fileName) -> ActivityStream? in
+                if !fileName.hasSuffix(".txt") {
+                    print("Unsupported file type: \(fileName)")
+                    return nil
+                }
+
                 let url = URL(fileURLWithPath: dataDir).appendingPathComponent(fileName)
 
                 let data: String
